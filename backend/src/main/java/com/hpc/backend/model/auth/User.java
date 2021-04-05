@@ -3,9 +3,11 @@ package com.hpc.backend.model.auth;
 import javax.persistence.*;
 
 import javax.validation.constraints.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
-@Table(name="users",
+@Table(name="user",
         uniqueConstraints = {
                 @UniqueConstraint(columnNames = "username"),
                 @UniqueConstraint(columnNames = "email")
@@ -28,6 +30,12 @@ public class User {
     @Size(max = 120, min = 8)
     private String password;
 
+    @ManyToMany(fetch = FetchType.LAZY)
+    @JoinTable(	name = "user_role",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
+    private Set<Role> roles = new HashSet<>();
+
     public User() {
     }
 
@@ -36,6 +44,14 @@ public class User {
         this.username = username;
         this.email = email;
         this.password = password;
+    }
+
+    public Set<Role> getRoles() {
+        return roles;
+    }
+
+    public void setRoles(Set<Role> roles) {
+        this.roles = roles;
     }
 
     public long getId() {

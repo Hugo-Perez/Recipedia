@@ -9,6 +9,9 @@ public class RecipeBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
+    @ManyToMany
+    private List<Recipe> recipes;
+
     private String title;
     private String author;
 

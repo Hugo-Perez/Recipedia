@@ -12,8 +12,7 @@ public class Recipe {
     private String description;
     @ManyToMany
     private List<Ingredient> ingredients;
-    @ManyToOne
-    private RecipeBook recipeBook;
+
     @ElementCollection
     private List<String> steps;
 
