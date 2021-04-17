@@ -8,7 +8,7 @@ import {
 } from 'react-router-dom';
 
 import Home from '../../Home';
-import Profile from '../../Profile';
+import ProfileFetcher from '../../ProfileFetcher';
 import MyRecipes from '../../MyRecipes';
 
 const PrivateSwitch = () => {
@@ -19,7 +19,7 @@ const PrivateSwitch = () => {
         <Home />
       </Route>
       <Route path="/profile/:username">
-        <Profile />
+        <ProfileFetcher />
       </Route>
       <Route path="/myrecipes">
         <MyRecipes />

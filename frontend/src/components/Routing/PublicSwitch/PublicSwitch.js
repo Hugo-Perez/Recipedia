@@ -7,7 +7,7 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import Home from '../../Home';
+import Welcome from '../../Welcome';
 import Signin from '../../Signin';
 import Signup from '../../Signup';
 
@@ -16,7 +16,7 @@ const PublicSwitch = () => {
     <Switch>
     { /* Public routes */ }
     <Route path='/home'>
-      <Home/>
+      <Welcome/>
     </Route>
     <Route path='/signin'>
       <Signin/>
