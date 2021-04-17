@@ -1,9 +1,20 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./Navbar.css";
+
+import Auth from '../../utils/auth';
 
 import {NavLink} from 'react-router-dom';
 
+import PublicNav from '../PublicNav';
+import PrivateNav from '../PrivateNav';
+
 const Navbar = () => {
+  const [user, setUser] = useState(undefined);
+
+  useEffect(() => {
+    setUser(Auth.getCurrentUser());
+  }, []);
+
   return (
     <nav className="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
       <div className="container">
@@ -22,20 +33,7 @@ const Navbar = () => {
         >
           <span className="navbar-toggler-icon"></span>
         </button>
-        <div className="collapse navbar-collapse" id="navLinks">
-          <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
-            <li className="nav-item">
-              <NavLink className="nav-link" to="/signin">
-                Sign in
-              </NavLink>
-            </li>
-            <li>
-              <NavLink className="nav-link" to="/signup">
-                Register
-              </NavLink>
-            </li>
-          </ul>
-        </div>
+        {user ? <PrivateNav user={user}/> : <PublicNav/>}
       </div>
     </nav>
   );

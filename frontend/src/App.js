@@ -1,22 +1,24 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { useEffect, useState } from "react";
+import logo from "./logo.svg";
+import "./App.css";
 
-import { 
-  BrowserRouter as Router, 
-  Switch,
-  Route,
-  Redirect
-} from 'react-router-dom';
+import { BrowserRouter as Router } from "react-router-dom";
 
-import Auth from './utils/auth';
+import Auth from "./utils/auth";
 
-import Navbar from './components/Navbar';
-import Footer from './components/Footer';
-import Home from './components/Home';
-import Signin from './components/Signin';
-import Signup from './components/Signup';
+import Navbar from "./components/Navbar";
+import Footer from "./components/Footer";
+import PublicSwitch from "./components/PublicSwitch";
+import PrivateSwitch from "./components/PrivateSwitch";
 
 const App = () => {
+  const [currentUser, setCurrentUser] = useState(undefined);
+
+  useEffect(() => {
+    const user = Auth.getCurrentUser();
+
+    if (user) setCurrentUser(user);
+  }, []);
 
   const logOut = () => {
     Auth.logout();
@@ -25,28 +27,13 @@ const App = () => {
 
   return (
     <Router>
-      <Navbar/>
+      <Navbar />
       <div className="content container">
-        <Switch>
-          { /* Public routes */ }
-          <Route path='/home'>
-            <Home/>
-          </Route>
-          <Route path='/signin'>
-            <Signin/>
-          </Route>
-          <Route path='/signup'>
-            <Signup/>
-          </Route>
-          { /* Logged in routes */ }
-
-          { /* Fallback path */ }
-          <Redirect to="/home" />
-        </Switch>
+        {currentUser ? <PublicSwitch /> : <PrivateSwitch />}
       </div>
-      <Footer/>
+      <Footer />
     </Router>
   );
-}
+};
 
 export default App;
