@@ -6,10 +6,10 @@ import { BrowserRouter as Router } from "react-router-dom";
 
 import Auth from "./utils/auth";
 
-import Navbar from "./components/Navbar";
+import Navbar from "./components/Routing/Navbar";
+import PublicSwitch from "./components/Routing/PublicSwitch";
+import PrivateSwitch from "./components/Routing/PrivateSwitch";
 import Footer from "./components/Footer";
-import PublicSwitch from "./components/PublicSwitch";
-import PrivateSwitch from "./components/PrivateSwitch";
 
 const App = () => {
   const [currentUser, setCurrentUser] = useState(undefined);
@@ -29,7 +29,7 @@ const App = () => {
     <Router>
       <Navbar />
       <div className="content container">
-        {currentUser ? <PublicSwitch /> : <PrivateSwitch />}
+        {currentUser ? <PrivateSwitch /> : <PublicSwitch />}
       </div>
       <Footer />
     </Router>

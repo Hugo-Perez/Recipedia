@@ -7,9 +7,9 @@ import {
   Redirect
 } from 'react-router-dom';
 
-import Home from '../Home';
-import Signin from '../Signin';
-import Signup from '../Signup';
+import Home from '../../Home';
+import Profile from '../../Profile';
+import MyRecipes from '../../MyRecipes';
 
 const PrivateSwitch = () => {
   return (
