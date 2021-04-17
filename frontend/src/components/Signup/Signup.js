@@ -1,15 +1,59 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Signup.css";
 
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import Auth from "../../utils/auth";
 
 const Signup = () => {
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const history = useHistory();
   const { handleSubmit, register, errors } = useForm({
     reValidateMode: "onChange",
   });
 
   const onSubmit = (formData) => {
-    console.log(formData);
+    // UI updates
+    setLoading(true);
+    setErrorMessage("");
+
+    Auth.register(formData)
+      .then(async (response) => {
+        if (response.ok) {
+          return response.text();
+        } else if (response.status === 400) {
+          let errorMsg = await response.text();
+          throw new Error(errorMsg);
+        }
+      })
+      .then((data) => {
+        console.log(`Register response: ${data}`);
+        Auth.login(formData)
+          .then((response) => response.json())
+          .then((data) => {
+            console.log(`Login response: ${data}`);
+            if (data?.accessToken) {
+              console.log("Saving user to localStorage");
+              localStorage.setItem("user", JSON.stringify(data));
+              history.push("/home");
+              window.location.reload();
+            }
+          });
+      })
+      .catch((error) => {
+        error.message === "Failed to fetch"
+          ? setErrorMessage("Couldn't reach the server, try again.")
+          : setErrorMessage(JSON.parse(error.message).message);
+      })
+      .finally(() => {
+        // UI updates
+        setTimeout(() => {
+          setLoading(false);
+        }, 50);
+      });
+
+    console.log(`Is it loading? ${loading}`);
   };
 
   return (
@@ -98,8 +142,13 @@ const Signup = () => {
           </label>
         </div>
         <button className="w-100 btn btn-lg btn-primary" type="submit">
-          Register
+          {loading ? <span className="spinner-border"></span> : "Register"}
         </button>
+        {errorMessage && (
+          <div className="alert alert-danger mt-3" role="alert">
+            {errorMessage}
+          </div>
+        )}
       </form>
     </div>
   );

@@ -1,17 +1,61 @@
-import React from "react";
+import React, { useState } from "react";
 import "./Signin.css";
 
+import { useHistory } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import Auth from "../../utils/auth";
 
 const Signin = () => {
+  const [loading, setLoading] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const history = useHistory();
   const { handleSubmit, register, errors } = useForm({
     reValidateMode: "onChange",
   });
 
-  console.log(errors);
-
   const onSubmit = (formData) => {
-    console.log(formData);
+    // UI updates
+    setLoading(true);
+    setErrorMessage("");
+
+    Auth.login(formData)
+      .then((response) => {
+        switch (response.status) {
+          case 401:
+            throw new Error("Invalid login credentials, try again.");
+            break;
+          case 200:
+            return response.json();
+            break;
+          default:
+            throw new Error(
+              "An unknown error occurred, try contacting the administrator."
+            );
+            break;
+        }
+      })
+      .then((data) => {
+        console.log(`Login response: ${data}`);
+        if (data?.accessToken) {
+          console.log("Saving user to localStorage");
+          localStorage.setItem("user", JSON.stringify(data));
+          history.push("/home");
+          window.location.reload();
+        }
+      })
+      .catch((error) => {
+        error.message === "Failed to fetch"
+          ? setErrorMessage("Couldn't reach the server, try again.")
+          : setErrorMessage(error.message);
+      })
+      .finally(() => {
+        // UI updates
+        setTimeout(() => {
+          setLoading(false);
+        }, 50);
+      });
+
+    console.log(`Is it loading? ${loading}`);
   };
 
   return (
@@ -68,14 +112,23 @@ const Signin = () => {
         </div>
         <p className="form-error">{errors.password?.message}</p>
 
+        {/* 
         <div className="checkbox mb-3">
           <label>
             <input type="checkbox" name="remember" ref={register} /> Remember me
           </label>
         </div>
+        */}
+
         <button className="w-100 btn btn-lg btn-primary" type="submit">
-          Sign in
+          {loading ? <span className="spinner-border"></span> : "Sign in"}
         </button>
+
+        {errorMessage && (
+          <div className="alert alert-danger mt-3" role="alert">
+            {errorMessage}
+          </div>
+        )}
       </form>
     </div>
   );

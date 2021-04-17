@@ -8,6 +8,8 @@ import {
   Redirect
 } from 'react-router-dom';
 
+import Auth from './utils/auth';
+
 import Navbar from './components/Navbar';
 import Footer from './components/Footer';
 import Home from './components/Home';
@@ -15,11 +17,18 @@ import Signin from './components/Signin';
 import Signup from './components/Signup';
 
 const App = () => {
+
+  const logOut = () => {
+    Auth.logout();
+    window.location.reload();
+  };
+
   return (
     <Router>
       <Navbar/>
       <div className="content container">
         <Switch>
+          { /* Public routes */ }
           <Route path='/home'>
             <Home/>
           </Route>
@@ -29,6 +38,8 @@ const App = () => {
           <Route path='/signup'>
             <Signup/>
           </Route>
+          { /* Logged in routes */ }
+
           { /* Fallback path */ }
           <Redirect to="/home" />
         </Switch>
