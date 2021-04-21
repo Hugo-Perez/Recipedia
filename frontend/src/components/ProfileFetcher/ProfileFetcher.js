@@ -8,7 +8,8 @@ import ErrorCard from "../ErrorCard";
 
 const ProfileFetcher = () => {
   const [userProfile, setUserProfile] = useState({});
-  const [errorMessage, setErrorMessage] = useState("");
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const username = useParams();
 
   useEffect(() => {
@@ -17,28 +18,37 @@ const ProfileFetcher = () => {
       headers: { "Content-Type": "application/json" },
       body: username.username,
       redirect: "follow",
-    }).then((response) => {
-      if (response.status === 200) {
-        return response.json();
-      } else if (response.status === 404) {
-        throw new Error("User not found");
-      }
-    }).then((data) => setUserProfile(data))
-    .catch(() => {
-      setErrorMessage("User not found");
-    });
+    })
+      .then((response) => {
+        if (response.status === 200) {
+          return response.json();
+        } else if (response.status === 404) {
+          throw new Error("User not found");
+        }
+      })
+      .then((data) => setUserProfile(data))
+      .catch(() =>
+        setError({
+          title: "User not found:",
+          message:
+            "An error has occurred while trying to reach the server, try again later.",
+        })
+      )
+      .finally(() => setLoading(false));
   }, [username]);
 
-  console.log(userProfile);
-  console.log(errorMessage);
   return (
-    <>
-      {errorMessage ? (
-        <ErrorCard message={errorMessage} />
+    <div class='d-flex justify-content-center align-items-center h-100'>
+      {error ? (
+        <ErrorCard error={error} />
+      ) : loading ? (
+        <div class='spinner-border' role='status'>
+          <span class='visually-hidden'>Loading...</span>
+        </div>
       ) : (
         <Profile userProfile={userProfile} />
       )}
-    </>
+    </div>
   );
 };
 
