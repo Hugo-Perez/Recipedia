@@ -1,5 +1,7 @@
 package com.hpc.backend.model;
 
+import com.hpc.backend.model.auth.User;
+
 import javax.persistence.*;
 import java.util.List;
 
@@ -15,13 +17,17 @@ public class RecipeBook {
     private String title;
     private String author;
 
+    @ManyToOne
+    private User owner;
+
     public RecipeBook() {
     }
 
-    public RecipeBook(long id, String title, String author) {
+    public RecipeBook(long id, String title, String author, User owner) {
         this.id = id;
         this.title = title;
         this.author = author;
+        this.owner = owner;
     }
 
     public long getId() {
@@ -46,5 +52,21 @@ public class RecipeBook {
 
     public void setAuthor(String author) {
         this.author = author;
+    }
+
+    public List<Recipe> getRecipes() {
+        return recipes;
+    }
+
+    public void setRecipes(List<Recipe> recipes) {
+        this.recipes = recipes;
+    }
+
+    public User getOwner() {
+        return owner;
+    }
+
+    public void setOwner(User owner) {
+        this.owner = owner;
     }
 }

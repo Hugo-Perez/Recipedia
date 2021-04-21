@@ -1,5 +1,7 @@
 package com.hpc.backend.model.auth;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 
 import javax.validation.constraints.*;
@@ -26,6 +28,7 @@ public class User {
     @Email
     private String email;
 
+    @JsonIgnore
     @NotBlank
     @Size(max = 120, min = 8)
     private String password;

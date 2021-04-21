@@ -16,4 +16,5 @@ public class BackendApplication {
     public BCryptPasswordEncoder bCryptPasswordEncoder() {
         return new BCryptPasswordEncoder();
     }
+
 }
