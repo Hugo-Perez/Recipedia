@@ -29,7 +29,7 @@ const App = () => {
     <Router>
       <Navbar />
       <div className='content container '>
-        {currentUser ? <PrivateSwitch /> : <PublicSwitch />}
+        {currentUser ? <PrivateSwitch logOut={logOut} /> : <PublicSwitch />}
       </div>
       <Footer />
     </Router>

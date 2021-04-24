@@ -38,12 +38,12 @@ const ProfileFetcher = () => {
   }, [username]);
 
   return (
-    <div class='d-flex justify-content-center align-items-center h-100'>
+    <div className='d-flex justify-content-center align-items-center h-100'>
       {error ? (
         <ErrorCard error={error} />
       ) : loading ? (
-        <div class='spinner-border' role='status'>
-          <span class='visually-hidden'>Loading...</span>
+        <div className='spinner-border' role='status'>
+          <span className='visually-hidden'>Loading...</span>
         </div>
       ) : (
         <Profile userProfile={userProfile} />

@@ -11,7 +11,7 @@ import Home from '../../Home';
 import ProfileFetcher from '../../ProfileFetcher';
 import MyRecipes from '../../MyRecipes';
 
-const PrivateSwitch = () => {
+const PrivateSwitch = ({logOut}) => {
   return (
     <Switch>
       {/* Logged in routes */}
@@ -23,6 +23,9 @@ const PrivateSwitch = () => {
       </Route>
       <Route path="/myrecipes">
         <MyRecipes />
+      </Route>
+      <Route path="/logout">
+        {() => logOut()}
       </Route>
 
       {/* Fallback path */}

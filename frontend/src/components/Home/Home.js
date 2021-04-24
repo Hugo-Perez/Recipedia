@@ -19,13 +19,33 @@ const Home = () => {
       redirect: "follow",
     })
     .then((response) => response.json())
-    .then((data) => console.log(data));
+    .then((data) => setRecipeBooks(data));
   }, [])
-  return (
-   <div>
-     Hello, this is a Home component!
-   </div>
-  );
+
+
+  //======================================
+  //== CONDITIONALLY RENDERED COMPONENT ==
+  //======================================
+
+  if (!recipeBooks) {   // CASE 1: Can't get the recipebooks
+    return (
+      <div className="d-flex justify-content-center align-self-center">
+        <div className="spinner-border" role="status">
+          <span className="visually-hidden">Loading...</span>
+        </div>
+      </div>
+    );
+  } else if (recipeBooks.length === 0) { // CASE 2: No recipe book is present
+    return (
+      <div className="d-flex justify-content-center align-self-center">
+        <h1>Looks like you don't have any recipe books, why don't you try making one?</h1>
+      </div>
+    );
+  } else { //
+    return (
+      <h1>Hi</h1>
+    );
+  }
 };
 
 export default Home;

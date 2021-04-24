@@ -17,6 +17,11 @@ const PrivateNav = ({user}) => {
             {user.username}
           </NavLink>
         </li>
+        <li>
+          <NavLink className="nav-link" to={`/logout`}>
+            Log Out
+          </NavLink>
+        </li>
       </ul>
     </div>
   );

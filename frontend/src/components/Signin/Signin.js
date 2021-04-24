@@ -39,7 +39,7 @@ const Signin = () => {
         if (data?.accessToken) {
           console.log("Saving user to localStorage");
           localStorage.setItem("user", JSON.stringify(data));
-          history.push("/home");
+          history.push("/myRecipes");
           window.location.reload();
         }
       })
