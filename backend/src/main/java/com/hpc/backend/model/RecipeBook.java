@@ -16,6 +16,9 @@ public class RecipeBook {
 
     private String title;
     private String author;
+    private String description;
+
+    private boolean privacy;
 
     @ManyToOne
     private User owner;
@@ -23,10 +26,12 @@ public class RecipeBook {
     public RecipeBook() {
     }
 
-    public RecipeBook(long id, String title, String author, User owner) {
+    public RecipeBook(long id, String title, String author, String description, boolean privacy, User owner) {
         this.id = id;
         this.title = title;
         this.author = author;
+        this.description = description;
+        this.privacy = privacy;
         this.owner = owner;
     }
 
@@ -68,5 +73,21 @@ public class RecipeBook {
 
     public void setOwner(User owner) {
         this.owner = owner;
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public boolean isPrivacy() {
+        return privacy;
+    }
+
+    public void setPrivacy(boolean privacy) {
+        this.privacy = privacy;
     }
 }

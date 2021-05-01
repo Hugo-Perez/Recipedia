@@ -9,5 +9,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.List;
 
 public interface RecipeBookRepository extends JpaRepository<RecipeBook, Long> {
-    public List<RecipeBook> findByOwner(User owner);
+    List<RecipeBook> findByOwner(User owner);
+
+    boolean existsByTitle(String title);
 }
