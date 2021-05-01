@@ -58,7 +58,7 @@ const Signup = () => {
 
   return (
     <div>
-      <form className="form-signin" onSubmit={handleSubmit(onSubmit)}>
+      <form className="small-form" onSubmit={handleSubmit(onSubmit)}>
         <img
           className="d-block rounded-circle mx-auto mb-4 p-3 bg-dark bg-gradient"
           src="/images/logo.png"

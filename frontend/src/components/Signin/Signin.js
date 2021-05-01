@@ -19,21 +19,7 @@ const Signin = () => {
     setErrorMessage("");
 
     Auth.login(formData)
-      .then((response) => {
-        switch (response.status) {
-          case 401:
-            throw new Error("Invalid login credentials, try again.");
-            break;
-          case 200:
-            return response.json();
-            break;
-          default:
-            throw new Error(
-              "An unknown error occurred, try contacting the administrator."
-            );
-            break;
-        }
-      })
+      .then((response) => response.json())
       .then((data) => {
         console.log(`Login response: ${data}`);
         if (data?.accessToken) {
@@ -44,6 +30,7 @@ const Signin = () => {
         }
       })
       .catch((error) => {
+        console.log(error)
         error.message === "Failed to fetch"
           ? setErrorMessage("Couldn't reach the server, try again.")
           : setErrorMessage(error.message);
@@ -60,7 +47,7 @@ const Signin = () => {
 
   return (
     <div>
-      <form className="form-signin" onSubmit={handleSubmit(onSubmit)}>
+      <form className="small-form" onSubmit={handleSubmit(onSubmit)}>
         <img
           className="d-block rounded-circle mx-auto mb-4 p-3 bg-dark bg-gradient"
           src="/images/logo.png"
