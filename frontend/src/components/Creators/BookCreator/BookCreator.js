@@ -20,24 +20,29 @@ const BookCreator = () => {
     setLoading(true);
     setErrorMessage("");
     
-    fetch(API_URL + "recipe/newRecipeBook", {
+     fetch(API_URL + "recipe/newRecipeBook", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { 
+        "Content-Type": "application/json",
+        Authorization: Auth.authHeader(),
+      },
       body: JSON.stringify(formData),
       redirect: "follow",
     })
-    .then((response) => response.json())
-    .then ((response) => {
-      console.log(response);
-      if (!response.ok) throw new Error(response.error);
-      return response;
+    .then  (async (response) => {
+      let data = await response.json();
+
+      if (!response.ok) 
+        throw new Error(data.message);
+
+      return data;
     })
     .then((data) => {
       console.log(`Server response: ${data}`);
-      
+      history.push("/myRecipes");
     })
     .catch((error) => {
-      console.log(error)
+      console.log(error.message);
       error.message === "Failed to fetch"
         ? setErrorMessage("Couldn't reach the server, try again.")
         : setErrorMessage(error.message);
