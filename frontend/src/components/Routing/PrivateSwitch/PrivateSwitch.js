@@ -11,12 +11,16 @@ import Home from '../../Home';
 import ProfileFetcher from '../../ProfileFetcher';
 import MyRecipes from '../../MyRecipes';
 import BookCreator from '../../Creators/BookCreator';
+import RecipeCreator from '../../Creators/RecipeCreator';
 
 const PrivateSwitch = ({logOut}) => {
   return (
     <Switch>
       {/* Logged in routes */}
-      <Route path="/home">
+      <Route exact path="/home/">
+        <Home />
+      </Route>
+      <Route path="/home/:bookId">
         <Home />
       </Route>
       <Route path="/profile/:username">
@@ -27,6 +31,9 @@ const PrivateSwitch = ({logOut}) => {
       </Route>
       <Route path="/newRecipebook">
         <BookCreator />
+      </Route>
+      <Route path="/newRecipe/:bookId">
+        <RecipeCreator />
       </Route>
       <Route path="/logout">
         {() => logOut()}
