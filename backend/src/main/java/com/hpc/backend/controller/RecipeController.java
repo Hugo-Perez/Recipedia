@@ -39,6 +39,37 @@ public class RecipeController {
         }
     }
 
+    @RequestMapping(value="/recipeBook{bookId}", method=RequestMethod.GET)
+    public ResponseEntity<?> getRecipeBook(Authentication authentication, @RequestParam long bookId) {
+        if (authentication.isAuthenticated()) {
+            UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
+            Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
+
+            Optional<RecipeBook> requestedBook = recipeBookRepository.findById(bookId);
+            if (requestedBook.isPresent()) {
+
+                RecipeBook bookFound = requestedBook.get();
+
+                if (bookFound.isPrivacy()) { //Only owner gets to see this book
+
+                    if (bookFound.getOwner().equals(user.get()))
+                        return ResponseEntity.ok(bookFound);
+                    else
+                        return ResponseEntity.badRequest().body(new ApiResponse("The requested book is private, ask for the owner's permission"));
+
+                } else {
+                    return ResponseEntity.ok(bookFound);
+                }
+
+            } else {
+                return ResponseEntity.badRequest().body(new ApiResponse("The requested recipe book could not be found"));
+            }
+
+        } else {
+            return ResponseEntity.badRequest().body(new ApiResponse("User not found, try logging in again"));
+        }
+    }
+
     @RequestMapping(value="/newRecipeBook", method=RequestMethod.POST)
     public ResponseEntity<?> newRecipeBook(Authentication authentication, @RequestBody RecipeBook recipeBook) {
         if (authentication.isAuthenticated()) {
