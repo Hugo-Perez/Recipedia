@@ -1,0 +1,14 @@
+# PENDING FEATURES:
+- ~~Change recipe model to use String fields instead for recipe steps and ingredients.~~
+- Add recipe management to api
+- Improve profile page.
+- Add image support for recipes. 
+- Change recipebook view description to match content.
+- Add search tab to find new recipes.
+- Add save recipes from other users.
+- Prevent user form creating duplicate name recipebooks on its account.
+- Add pagination to grid views.
+- Create preview button on recipe creation form.
+- Add import from website functionality.
+- Add shopping list to the page.
+- Add ingredients to shopping list button.
