@@ -1,6 +1,9 @@
 package com.hpc.backend.model;
 
+import org.hibernate.validator.constraints.Length;
+
 import javax.persistence.*;
+import javax.validation.constraints.Size;
 import java.util.List;
 
 @Entity
@@ -10,16 +13,17 @@ public class Recipe {
     private long id;
     private String title;
     private String description;
-    @ManyToMany
-    private List<Ingredient> ingredients;
 
-    @OneToMany
-    private List<RecipeStep> steps;
+    @Size(max=1500)
+    private String ingredients;
+
+    @Size(max=10000)
+    private String steps;
 
     public Recipe() {
     }
 
-    public Recipe(long id, String title, String description, List<Ingredient> ingredients, List<RecipeStep> steps) {
+    public Recipe(long id, String title, String description, String ingredients, String steps) {
         this.id = id;
         this.title = title;
         this.description = description;
@@ -51,19 +55,19 @@ public class Recipe {
         this.description = description;
     }
 
-    public List<Ingredient> getIngredients() {
+    public String getIngredients() {
         return ingredients;
     }
 
-    public void setIngredients(List<Ingredient> ingredients) {
+    public void setIngredients(String ingredients) {
         this.ingredients = ingredients;
     }
 
-    public List<RecipeStep> getSteps() {
+    public String getSteps() {
         return steps;
     }
 
-    public void setSteps(List<RecipeStep> steps) {
+    public void setSteps(String steps) {
         this.steps = steps;
     }
 }

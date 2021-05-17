@@ -32,11 +32,13 @@ const RecipeCreator = () => {
   }, []);
 
   const onSubmit = (formData) => {
+    console.log(formData);
+
     // UI updates
     setLoading(true);
     setErrorMessage("");
 
-    fetch(API_URL + "recipe/newRecipeBook", {
+    fetch(API_URL + `recipe/newRecipe?recipeBookId=${formData.recipeBook}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -78,7 +80,7 @@ const RecipeCreator = () => {
           <h3 className='h3 mb-3 mx-auto fw-normal text-center'>
             Create a new recipe
           </h3>
-          <div className='form-floating'>
+          <div className='form-floating'> 
             <input
               className='form-control'
               name='title'
