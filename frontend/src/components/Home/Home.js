@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Link, useParams } from "react-router-dom";
+import { NavLink, useParams } from "react-router-dom";
 import "./Home.css";
 
 import Auth from "../../utils/auth";
@@ -29,13 +29,11 @@ const Home = () => {
     <div className="row">
       <div className="col-md-2">
       <nav class="navbar navbar-dark bg-dark sidebar">
-        <ul class="navbar-nav flex-column">
+        <div class="navbar-nav flex-column">
           {recipeBooks?.map((book) => (
-            <li class="nav-item ms-2">
-              <Link class="nav-link" to={`/home/${book.id}`}> {book.title} </Link>
-            </li>
+            <NavLink className="nav-link ps-2 mb-2 overflow-hidden sidebar-link" to={`/home/${book.id}`}> {book.title} </NavLink>
           ))}
-        </ul>
+        </div>
       </nav>
       </div>
       <div className="col-md-10 right-col">
