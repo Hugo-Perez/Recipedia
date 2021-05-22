@@ -1,0 +1,9 @@
+#recipes {
+  max-height: 85vh;
+  -ms-overflow-style: none;  /* IE and Edge */
+  scrollbar-width: none;  /* Firefox */
+}
+
+#recipes::-webkit-scrollbar {
+  display: none;  /* Chrome based */
+}

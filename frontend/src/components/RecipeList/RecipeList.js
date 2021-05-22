@@ -4,25 +4,10 @@ import './RecipeList.css';
 
 import Auth from "../../utils/auth";
 
-import ErrorCard from '../ErrorCard';
+import RecipeCard from '../RecipeCard';
 
-const RecipeList = ({bookId}) => {
 
-  const [recipeBook, setRecipeBook] = useState({});
-
-  useEffect(() => {
-    fetch(`http://localhost:8080/api/recipe/recipeBook/?bookId=${bookId}`, {
-      method: "GET",
-      headers: {
-        Authorization: Auth.authHeader(),
-      },
-    })
-      .then((response) => response.json())
-      .then((data) => setRecipeBook(data));
-
-      console.log(recipeBook);
-
-  }, [bookId])
+const RecipeList = ({recipeBook}) => {
 
   if (recipeBook.recipes?.length <= 0) {
     return (
@@ -31,13 +16,19 @@ const RecipeList = ({bookId}) => {
         <Link className="alert-link" to={`/newRecipe/${recipeBook.id}`}> Why don't you try creating one?</Link>
       </div>
     )
+  } else {
+    console.log(recipeBook)
+    return(
+      <>
+        {recipeBook.recipes?.map(recipe => (
+          <div class="col">
+            <RecipeCard recipe={recipe} key={`${recipe.id}`}/>
+          </div>
+        ))}
+      </>
+    );
   }
 
-  return(
-    <div>
-      Recipe book received: {recipeBook.title}
-    </div>
-  );
 };
 
 export default RecipeList;

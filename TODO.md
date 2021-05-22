@@ -1,6 +1,6 @@
 # PENDING FEATURES:
 - ~~Change recipe model to use String fields instead for recipe steps and ingredients.~~
-- Add recipe management to api
+- Add recipe management to api.
 - Improve profile page.
 - Add image support for recipes. 
 - Change recipebook view description to match content.

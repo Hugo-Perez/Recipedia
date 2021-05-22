@@ -5,6 +5,7 @@ import "./Home.css";
 import Auth from "../../utils/auth";
 
 import RecipeList from '../RecipeList';
+import RecipeFetcher from '../RecipeFetcher';
 
 
 const Home = () => {
@@ -28,17 +29,17 @@ const Home = () => {
   return(
     <div className="row">
       <div className="col-md-2">
-      <nav class="navbar navbar-dark bg-dark sidebar">
-        <div class="navbar-nav flex-column">
-          {recipeBooks?.map((book) => (
-            <NavLink className="nav-link ps-2 mb-2 overflow-hidden sidebar-link" to={`/home/${book.id}`}> {book.title} </NavLink>
-          ))}
-        </div>
-      </nav>
+        <nav class="navbar navbar-dark bg-dark sidebar">
+          <div class="navbar-nav flex-column">
+            {recipeBooks?.map((book) => (
+              <NavLink className="nav-link ps-2 mb-2 overflow-hidden sidebar-link" key={`${book.id}`} to={`/home/${book.id}`}> {book.title} </NavLink>
+            ))}
+          </div>
+        </nav>
       </div>
-      <div className="col-md-10 right-col">
+      <div className="col-md-8 offset-md-1">
         {(bookId) 
-        ? <RecipeList bookId={bookId} />
+        ? <RecipeFetcher bookId={bookId} />
         : <h1>no book</h1>}
       </div>
     </div>
