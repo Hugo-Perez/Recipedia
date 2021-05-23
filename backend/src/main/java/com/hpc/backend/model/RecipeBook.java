@@ -11,7 +11,7 @@ public class RecipeBook {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
-    @ManyToMany
+    @OneToMany(mappedBy = "recipeBook")
     private List<Recipe> recipes;
 
     private String title;

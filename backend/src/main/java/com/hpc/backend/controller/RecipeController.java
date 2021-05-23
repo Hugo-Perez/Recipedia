@@ -61,7 +61,7 @@ public class RecipeController {
             }
 
         } else {
-            return ResponseEntity.badRequest().body(new ApiResponse("User not found, try logging in again"));
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
         }
     }
 
@@ -82,7 +82,7 @@ public class RecipeController {
             return ResponseEntity.ok(insertedBook);
 
         } else {
-            return ResponseEntity.badRequest().body(new ApiResponse("User not found, try logging in again"));
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
         }
     }
 
@@ -102,7 +102,7 @@ public class RecipeController {
             }
 
         } else {
-            return ResponseEntity.badRequest().body(new ApiResponse("User not found, try logging in again"));
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
         }
     }
 
@@ -124,7 +124,7 @@ public class RecipeController {
 
 
         } else {
-            return ResponseEntity.badRequest().body(new ApiResponse("User not found, try logging in again"));
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
         }
     }
 
@@ -138,7 +138,7 @@ public class RecipeController {
             return ResponseEntity.ok().body(myRecipeBooks);
 
         } else {
-            return ResponseEntity.badRequest().body("Unable to load recipes");
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
         }
     }
 
@@ -171,7 +171,74 @@ public class RecipeController {
             }
 
         } else {
-            return ResponseEntity.badRequest().body(new ApiResponse("Unable to load recipes"));
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
+        }
+    }
+
+    @RequestMapping(value = "/getRecipe", method = RequestMethod.GET)
+    public ResponseEntity<?> getRecipe(Authentication authentication, @RequestParam Long recipeId) {
+        if (authentication.isAuthenticated()) {
+
+            Optional<Recipe> recipe = recipeRepository.findById(recipeId);
+
+            if (recipe.isPresent()) {
+                return ResponseEntity.ok(recipe);
+            } else {
+                return ResponseEntity.badRequest().body(new ApiResponse("Recipe could not be found, try again"));
+            }
+
+        } else {
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
+        }
+    }
+
+    @RequestMapping(value = "/editRecipe", method = RequestMethod.PUT)
+    public ResponseEntity<?> editRecipe(Authentication authentication, @RequestParam Long recipeId,  @RequestBody Recipe recipe) {
+        if (authentication.isAuthenticated()) {
+            UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
+            Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
+
+            Optional<Recipe> originalRecipe = recipeRepository.findById(recipeId);
+
+            if (originalRecipe.isPresent()) {
+                boolean isOwner = originalRecipe.get().getRecipeBook().getOwner().equals(user.get());
+                if (!isOwner) {
+                    return ResponseEntity.status(403).body(new ApiResponse("You are not the owner of this recipe"));
+                }
+
+                recipeRepository.save(recipe);
+                return ResponseEntity.ok(recipe);
+            } else {
+                return ResponseEntity.badRequest().body(new ApiResponse("Recipe could not be found, try again"));
+            }
+
+        } else {
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
+        }
+    }
+
+    @RequestMapping(value = "/deleteRecipe", method = RequestMethod.PUT)
+    public ResponseEntity<?> deleteRecipe(Authentication authentication, @RequestParam Long recipeId) {
+        if (authentication.isAuthenticated()) {
+            UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
+            Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
+
+            Optional<Recipe> originalRecipe = recipeRepository.findById(recipeId);
+
+            if (originalRecipe.isPresent()) {
+                boolean isOwner = originalRecipe.get().getRecipeBook().getOwner().equals(user.get());
+                if (!isOwner) {
+                    return ResponseEntity.status(403).body(new ApiResponse("You are not the owner of this recipe"));
+                }
+
+                recipeRepository.delete(originalRecipe.get());
+                return ResponseEntity.ok(new ApiResponse("Recipe deleted successfully"));
+            } else {
+                return ResponseEntity.badRequest().body(new ApiResponse("Recipe could not be found, try again"));
+            }
+
+        } else {
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
         }
     }
 }
