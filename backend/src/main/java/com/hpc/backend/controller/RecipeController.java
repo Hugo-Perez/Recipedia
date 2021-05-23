@@ -1,5 +1,6 @@
 package com.hpc.backend.controller;
 
+import com.fasterxml.jackson.annotation.JsonView;
 import com.hpc.backend.config.services.UserDetailsImpl;
 import com.hpc.backend.model.ApiResponse;
 import com.hpc.backend.model.Recipe;
@@ -128,6 +129,7 @@ public class RecipeController {
         }
     }
 
+
     @RequestMapping(value = "/myRecipeBooks", method = RequestMethod.POST)
     public ResponseEntity<?> myRecipeBooks(Authentication authentication) {
         if (authentication.isAuthenticated()) {
@@ -157,15 +159,12 @@ public class RecipeController {
             Optional<RecipeBook> recipeBook = recipeBookRepository.findById(recipeBookId);
 
             if (recipeBook.isPresent()) {
+                RecipeBook bookFound = recipeBook.get();
+
+                recipe.setRecipeBook(bookFound);
                 recipeRepository.save(recipe);
 
-                RecipeBook bookFound = recipeBook.get();
-                List<Recipe> recipeList = bookFound.getRecipes();
-                recipeList.add(recipe);
-
-                recipeBookRepository.save(bookFound);
-
-                return ResponseEntity.ok(recipeBook);
+                return ResponseEntity.ok(recipe);
             } else {
                 return ResponseEntity.badRequest().body(new ApiResponse("Recipe Book could not be found, try again"));
             }

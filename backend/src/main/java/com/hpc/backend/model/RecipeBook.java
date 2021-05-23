@@ -1,5 +1,6 @@
 package com.hpc.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hpc.backend.model.auth.User;
 
 import javax.persistence.*;

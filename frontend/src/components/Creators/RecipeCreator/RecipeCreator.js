@@ -32,13 +32,14 @@ const RecipeCreator = () => {
   }, []);
 
   const onSubmit = (formData) => {
+    const {recipeBook} = formData;
     console.log(formData);
 
     // UI updates
     setLoading(true);
     setErrorMessage("");
 
-    fetch(API_URL + `recipe/newRecipe?recipeBookId=${formData.recipeBook}`, {
+    fetch(API_URL + `recipe/newRecipe?recipeBookId=${recipeBook}`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",

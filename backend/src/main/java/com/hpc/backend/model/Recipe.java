@@ -1,5 +1,8 @@
 package com.hpc.backend.model;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+
 import javax.persistence.*;
 import javax.validation.constraints.Size;
 
@@ -18,6 +21,7 @@ public class Recipe {
     private String steps;
 
     @ManyToOne
+    @JsonIgnore
     private RecipeBook recipeBook;
 
     public Recipe() {
