@@ -21,7 +21,7 @@ public class Recipe {
     private String steps;
 
     @ManyToOne
-    @JsonIgnore
+    @JsonIgnoreProperties("recipes")
     private RecipeBook recipeBook;
 
     public Recipe() {
@@ -35,6 +35,8 @@ public class Recipe {
         this.steps = steps;
         this.recipeBook = recipeBook;
     }
+
+
 
     public long getId() {
         return id;

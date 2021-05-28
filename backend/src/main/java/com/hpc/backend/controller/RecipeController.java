@@ -127,7 +127,6 @@ public class RecipeController {
         }
     }
 
-
     @RequestMapping(value = "/myRecipeBooks", method = RequestMethod.POST)
     public ResponseEntity<?> myRecipeBooks(Authentication authentication) {
         if (authentication.isAuthenticated()) {
@@ -199,7 +198,7 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/editRecipe", method = RequestMethod.PUT)
-    public ResponseEntity<?> editRecipe(Authentication authentication, @RequestParam Long recipeId,  @RequestBody Recipe recipe) {
+    public ResponseEntity<?> editRecipe(Authentication authentication, @RequestParam Long recipeBookId, @RequestParam Long recipeId,  @RequestBody Recipe recipe) {
         if (authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
             Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
@@ -211,7 +210,12 @@ public class RecipeController {
                 if (!isOwner) {
                     return ResponseEntity.status(403).body(new ApiResponse("You are not the owner of this recipe"));
                 }
- 
+
+                Optional<RecipeBook> inputBook = recipeBookRepository.findById(recipeBookId);
+
+                inputBook.ifPresent((book)->recipe.setRecipeBook(book));
+                recipe.setId(originalRecipe.get().getId());
+
                 recipeRepository.save(recipe);
                 return ResponseEntity.ok(recipe);
             } else {
@@ -223,7 +227,7 @@ public class RecipeController {
         }
     }
 
-    @RequestMapping(value = "/deleteRecipe", method = RequestMethod.PUT)
+    @RequestMapping(value = "/deleteRecipe", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteRecipe(Authentication authentication, @RequestParam Long recipeId) {
         if (authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
