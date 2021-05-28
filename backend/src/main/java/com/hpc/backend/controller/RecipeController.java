@@ -14,9 +14,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Optional;
+import java.util.*;
 
 @RestController
 @RequestMapping("/api/recipe")
@@ -177,11 +175,20 @@ public class RecipeController {
     @RequestMapping(value = "/getRecipe", method = RequestMethod.GET)
     public ResponseEntity<?> getRecipe(Authentication authentication, @RequestParam Long recipeId) {
         if (authentication.isAuthenticated()) {
+            UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
+            Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 
             Optional<Recipe> recipe = recipeRepository.findById(recipeId);
 
             if (recipe.isPresent()) {
-                return ResponseEntity.ok(recipe);
+                boolean isOwner = recipe.get().getRecipeBook().getOwner().equals(user.get());
+
+                Map<String, Object> response = new HashMap<>();
+
+                response.put("recipe", recipe);
+                response.put("isOwner", isOwner);
+
+                return ResponseEntity.ok(response);
             } else {
                 return ResponseEntity.badRequest().body(new ApiResponse("Recipe could not be found, try again"));
             }
@@ -204,7 +211,7 @@ public class RecipeController {
                 if (!isOwner) {
                     return ResponseEntity.status(403).body(new ApiResponse("You are not the owner of this recipe"));
                 }
-
+ 
                 recipeRepository.save(recipe);
                 return ResponseEntity.ok(recipe);
             } else {
