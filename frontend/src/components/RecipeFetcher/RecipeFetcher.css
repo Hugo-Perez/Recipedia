@@ -1,5 +1,6 @@
 #recipes {
-  max-height: 85vh;
+  max-height: 84.5vh;
+  padding-bottom: 3rem;
   -ms-overflow-style: none;  /* IE and Edge */
   scrollbar-width: none;  /* Firefox */
 }

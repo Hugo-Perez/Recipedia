@@ -12,6 +12,7 @@ import ProfileFetcher from '../../ProfileFetcher';
 import MyRecipes from '../../MyRecipes';
 import BookCreator from '../../Creators/BookCreator';
 import RecipeCreator from '../../Creators/RecipeCreator';
+import RecipeView from '../../RecipeView';
 
 const PrivateSwitch = ({logOut}) => {
   return (
@@ -34,6 +35,9 @@ const PrivateSwitch = ({logOut}) => {
       </Route>
       <Route path="/newRecipe/:bookId">
         <RecipeCreator />
+      </Route>
+      <Route path="/recipe/:recipeId">
+        <RecipeView />
       </Route>
       <Route path="/logout">
         {() => logOut()}
