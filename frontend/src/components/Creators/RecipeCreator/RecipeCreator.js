@@ -98,7 +98,7 @@ const RecipeCreator = () => {
                 },
               })}
             />
-            <label for='title'>Recipe Title</label>
+            <label htmlFor='title'>Recipe Title</label>
             <p className='form-error'>{errors.title?.message}</p>
           </div>
 
@@ -115,13 +115,13 @@ const RecipeCreator = () => {
                 },
               })}
             />
-            <label for='description'>Description</label>
+            <label htmlFor='description'>Description</label>
             <p className='form-error'>{errors.description?.message}</p>
           </div>
 
           <div className='form-floating'>
             <select
-              class=' form-select form-select-lg'
+              className=' form-select form-select-lg'
               name='recipeBook'
               id='recipeBook'
               ref={register({
@@ -137,7 +137,7 @@ const RecipeCreator = () => {
                 </option>
               ))}
             </select>
-            <label for='recipeBook'>Recipe Book</label>
+            <label htmlFor='recipeBook'>Recipe Book</label>
             <p className='form-error'>{errors.recipeBook?.message}</p>
           </div>
 
@@ -149,7 +149,7 @@ const RecipeCreator = () => {
               placeholder='List the ingredients for this recipe'
               ref={register()}
             />
-            <label for='description'>Ingredients</label>
+            <label htmlFor='description'>Ingredients</label>
             <p className='form-error'>{errors.ingredients?.message}</p>
           </div>
 
@@ -176,7 +176,7 @@ const RecipeCreator = () => {
               placeholder='List the steps for this recipe'
               ref={register()}
             />
-            <label for='description'>Steps</label>
+            <label htmlFor='description'>Steps</label>
             <p className='form-error'>{errors.steps?.message}</p>
           </div>
         </div>
