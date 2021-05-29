@@ -1,7 +1,7 @@
 package com.hpc.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import com.hpc.backend.model.auth.User;
+import org.springframework.beans.factory.annotation.Value;
 
 import javax.persistence.*;
 import java.util.List;
@@ -21,6 +21,9 @@ public class RecipeBook {
 
     private boolean privacy;
 
+    @Value(value = "true")
+    private boolean deletable;
+
     @ManyToOne
     private User owner;
 
@@ -29,6 +32,14 @@ public class RecipeBook {
 
     public RecipeBook(long id, String title, String author, String description, boolean privacy, User owner) {
         this.id = id;
+        this.title = title;
+        this.author = author;
+        this.description = description;
+        this.privacy = privacy;
+        this.owner = owner;
+    }
+
+    public RecipeBook(String title, String author, String description, boolean privacy, User owner) {
         this.title = title;
         this.author = author;
         this.description = description;
@@ -90,5 +101,13 @@ public class RecipeBook {
 
     public void setPrivacy(boolean privacy) {
         this.privacy = privacy;
+    }
+
+    public boolean isDeletable() {
+        return deletable;
+    }
+
+    public void setDeletable(boolean deletable) {
+        this.deletable = deletable;
     }
 }

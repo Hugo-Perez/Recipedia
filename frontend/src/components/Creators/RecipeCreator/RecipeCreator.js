@@ -33,6 +33,7 @@ const RecipeCreator = () => {
 
   const onSubmit = (formData) => {
     const {recipeBook} = formData;
+    delete formData.recipeBook;
     console.log(formData);
 
     // UI updates

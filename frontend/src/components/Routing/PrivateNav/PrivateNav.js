@@ -19,6 +19,11 @@ const PrivateNav = ({user}) => {
           </NavLink>
         </li>
         <li className="nav-item">
+          <NavLink className="nav-link" to="/newRecipe">
+            New Recipe
+          </NavLink>
+        </li>
+        <li className="nav-item">
           <NavLink className="nav-link" to={`/profile/${user.username}`}>
             {user.username}
           </NavLink>

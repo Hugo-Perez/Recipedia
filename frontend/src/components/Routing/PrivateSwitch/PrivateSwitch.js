@@ -34,7 +34,7 @@ const PrivateSwitch = ({logOut}) => {
       <Route path="/newRecipebook">
         <BookCreator />
       </Route>
-      <Route path="/newRecipe/:bookId">
+      <Route path="/newRecipe/:bookId?">
         <RecipeCreator />
       </Route>
       <Route path="/recipe/:recipeId">

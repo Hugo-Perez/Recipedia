@@ -106,21 +106,34 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/deleteRecipeBook", method = RequestMethod.DELETE)
-    public ResponseEntity<?> deleteRecipeBook(Authentication authentication, @RequestParam long id) {
+    public ResponseEntity<?> deleteRecipeBook(Authentication authentication, @RequestParam long bookId) {
         if (authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
             Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 
-
-            RecipeBook originalRecipeBook = recipeBookRepository.findFirstByIdAndOwner(id, user.get());
+            RecipeBook originalRecipeBook = recipeBookRepository.findFirstByIdAndOwner(bookId, user.get());
 
             if (originalRecipeBook != null) {
-                recipeBookRepository.delete(originalRecipeBook);
-                return ResponseEntity.ok(new ApiResponse("Deleted book with id = " + id));
+                // We can only delete the book if its not the default one
+                // If we delete a book the recipes contained by it will be moved to the default book
+                if (originalRecipeBook.isDeletable()) {
+
+                    RecipeBook defaultBook = recipeBookRepository.findFirstByDeletableAndOwner(false, user.get());
+                    Iterator<Recipe> recipes = originalRecipeBook.getRecipes().iterator();
+                    recipes.forEachRemaining((recipe)-> {
+                        recipe.setRecipeBook(defaultBook);
+                        recipeRepository.saveAndFlush(recipe);
+                    });
+
+                    recipeBookRepository.deleteById(originalRecipeBook.getId());
+
+                    return ResponseEntity.ok(new ApiResponse("Deleted book with id = " + bookId));
+                } else {
+                    return ResponseEntity.badRequest().body(new ApiResponse("This Recipe Book cannot be deleted!"));
+                }
             } else {
                 return ResponseEntity.badRequest().body(new ApiResponse("The RecipeBook you tried to delete could not be found"));
             }
-
 
         } else {
             return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));

@@ -1,17 +1,32 @@
 import React, { useEffect, useState } from "react";
-import { NavLink, useParams } from "react-router-dom";
+import {NavLink, useParams} from "react-router-dom";
 import "./Home.css";
 
 import Auth from "../../utils/auth";
 
-import RecipeList from '../Recipe/RecipeList';
 import RecipeFetcher from '../Recipe/RecipeFetcher';
-
 
 const Home = () => {
 
   const [recipeBooks, setRecipeBooks] = useState([]);
   const {bookId} = useParams();
+
+  const deleteRecipeBook = (bookId) => {
+    if (window.confirm("Are you sure you want to delete this recipeBook?")) {
+      fetch(`http://localhost:8080/api/recipe/deleteRecipeBook/?bookId=${bookId}`, {
+        method: "DELETE",
+        headers: {
+          Authorization: Auth.authHeader(),
+        },
+        redirect: "follow",
+      })
+        .then(
+          (response) => (response.status === 200)
+            ? window.location.reload()
+            : alert("An errorred ocurred while trying to delete this book, try again later")
+        )
+    }
+  }
 
   useEffect(() => {
     fetch("http://localhost:8080/api/recipe/myRecipeBooks", {
@@ -19,7 +34,6 @@ const Home = () => {
       headers: {
         Authorization: Auth.authHeader(),
       },
-      body: "",
       redirect: "follow",
     })
       .then((response) => response.json())
@@ -46,7 +60,7 @@ const Home = () => {
                     </svg>
                   </button>
 
-                  <button type="button" className="btn btn-outline-danger">
+                  <button onClick={() => deleteRecipeBook(book.id)} type="button" className="btn btn-outline-danger">
                     <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor"
                          className="bi bi-x-lg" viewBox="0 0 16 16">
                       <path
