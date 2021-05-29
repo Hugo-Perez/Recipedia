@@ -1,11 +1,12 @@
 package com.hpc.backend.controller;
 
-
 import com.hpc.backend.config.jwt.JwtUtils;
 import com.hpc.backend.config.services.UserDetailsImpl;
+import com.hpc.backend.model.RecipeBook;
 import com.hpc.backend.model.auth.ERole;
 import com.hpc.backend.model.auth.Role;
 import com.hpc.backend.model.auth.User;
+import com.hpc.backend.repository.RecipeBookRepository;
 import com.hpc.backend.repository.RoleRepository;
 import com.hpc.backend.repository.UserRepository;
 import com.hpc.backend.security.request.LoginRequest;
@@ -39,6 +40,9 @@ public class AuthController {
 
     @Autowired
     RoleRepository roleRepository;
+
+    @Autowired
+    RecipeBookRepository recipeBookRepository;
 
     @Autowired
     BCryptPasswordEncoder encoder;
@@ -112,6 +116,10 @@ public class AuthController {
 
         user.setRoles(roles);
         userRepository.save(user);
+
+        RecipeBook defaultRecipeBook = new RecipeBook("My Recipes", user.getUsername(), "This is your default recipe book", true, user);
+        defaultRecipeBook.setDeletable(false);
+        recipeBookRepository.save(defaultRecipeBook);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
