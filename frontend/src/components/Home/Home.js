@@ -4,8 +4,8 @@ import "./Home.css";
 
 import Auth from "../../utils/auth";
 
-import RecipeList from '../RecipeList';
-import RecipeFetcher from '../RecipeFetcher';
+import RecipeList from '../Recipe/RecipeList';
+import RecipeFetcher from '../Recipe/RecipeFetcher';
 
 
 const Home = () => {
@@ -32,7 +32,9 @@ const Home = () => {
         <nav class="navbar navbar-dark bg-dark sidebar">
           <div class="navbar-nav flex-column">
             {recipeBooks?.map((book) => (
-              <NavLink className="nav-link ps-2 mb-2 overflow-hidden sidebar-link" key={`${book.id}`} to={`/home/${book.id}`}> {book.title} </NavLink>
+              <NavLink className="nav-link ps-2 mb-2 overflow-hidden sidebar-link" key={`${book.id}`} to={`/home/${book.id}`}>
+                {book.title}
+              </NavLink>
             ))}
           </div>
         </nav>

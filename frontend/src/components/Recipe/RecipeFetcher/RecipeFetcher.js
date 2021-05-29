@@ -4,7 +4,7 @@ import {Link} from 'react-router-dom';
 import './RecipeFetcher.css';
 
 import RecipeList from '../RecipeList';
-import Auth from "../../utils/auth";
+import Auth from "../../../utils/auth";
 
 const RecipeFetcher = ({bookId}) => {
 

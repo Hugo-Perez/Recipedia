@@ -3,8 +3,8 @@ import './RecipeEditor.css';
 
 import {useHistory, useParams} from "react-router-dom";
 import {useForm} from "react-hook-form";
-import Auth from "../../utils/auth";
-import {API_URL} from "../../utils/constants";
+import Auth from "../../../utils/auth";
+import {API_URL} from "../../../utils/constants";
 
 const RecipeEditor = () => {
   const [loading, setLoading] = useState(false);

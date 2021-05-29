@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react';
 import {Link} from 'react-router-dom';
 import './RecipeList.css';
 
-import Auth from "../../utils/auth";
+import Auth from "../../../utils/auth";
 
 import RecipeCard from '../RecipeCard';
 

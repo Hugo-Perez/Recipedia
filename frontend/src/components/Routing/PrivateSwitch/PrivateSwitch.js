@@ -9,11 +9,11 @@ import {
 
 import Home from '../../Home';
 import ProfileFetcher from '../../ProfileFetcher';
-import MyRecipes from '../../MyRecipes';
+import MyRecipeBooks from '../../MyRecipeBooks';
 import BookCreator from '../../Creators/BookCreator';
 import RecipeCreator from '../../Creators/RecipeCreator';
-import RecipeView from '../../RecipeView';
-import RecipeEditor from "../../RecipeEditor";
+import RecipeView from '../../Recipe/RecipeView';
+import RecipeEditor from "../../Recipe/RecipeEditor";
 
 const PrivateSwitch = ({logOut}) => {
   return (
@@ -28,8 +28,8 @@ const PrivateSwitch = ({logOut}) => {
       <Route path="/profile/:username">
         <ProfileFetcher />
       </Route>
-      <Route path="/myrecipes">
-        <MyRecipes />
+      <Route path="/myRecipeBooks">
+        <MyRecipeBooks />
       </Route>
       <Route path="/newRecipebook">
         <BookCreator />

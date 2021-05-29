@@ -1,7 +1,7 @@
 import React from 'react';
 import './RecipeBookList.css';
 
-import RecipeBookDisplay from '../RecipeBookDisplay';
+import RecipeBookDisplay from '../Recipe/RecipeBookDisplay';
 
 const RecipeBookList = ({recipeBooks}) => {
   console.log(recipeBooks);

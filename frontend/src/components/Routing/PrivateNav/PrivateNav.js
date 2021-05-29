@@ -14,8 +14,8 @@ const PrivateNav = ({user}) => {
           </NavLink>
         </li>
         <li className="nav-item">
-          <NavLink className="nav-link" to="/myrecipes">
-            My Recipes
+          <NavLink className="nav-link" to="/myRecipeBooks">
+            My Books
           </NavLink>
         </li>
         <li className="nav-item">

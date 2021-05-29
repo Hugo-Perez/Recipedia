@@ -3,8 +3,8 @@ import './RecipeView.css';
 
 import {Link, useHistory, useParams} from 'react-router-dom';
 
-import Auth from '../../utils/auth.js';
-import Functions from '../../utils/functions.js';
+import Auth from '../../../utils/auth.js';
+import Functions from '../../../utils/functions.js';
 
 const RecipeView = () => {
 

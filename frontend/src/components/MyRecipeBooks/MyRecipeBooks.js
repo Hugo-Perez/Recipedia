@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import "./MyRecipes.css";
+import "./MyRecipeBooks.css";
 
 import Auth from "../../utils/auth";
 
@@ -7,7 +7,7 @@ import { Link } from "react-router-dom";
 
 import RecipeBookList from '../RecipeBookList';
 
-const MyRecipes = () => {
+const MyRecipeBooks = () => {
   const [recipeBooks, setRecipeBooks] = useState([]);
 
   useEffect(() => {
@@ -66,4 +66,4 @@ const MyRecipes = () => {
   
 };
 
-export default MyRecipes;
+export default MyRecipeBooks;
