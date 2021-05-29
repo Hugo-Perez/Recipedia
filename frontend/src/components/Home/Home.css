@@ -1,3 +1,4 @@
-.sidebar-link {
-  max-height: 38px;
+.nav > .d-flex > .nav-link {
+  max-width: 12rem;
+  color: white;
 }
