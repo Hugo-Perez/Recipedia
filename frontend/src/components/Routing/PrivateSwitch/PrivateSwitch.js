@@ -14,6 +14,7 @@ import BookCreator from '../../Creators/BookCreator';
 import RecipeCreator from '../../Creators/RecipeCreator';
 import RecipeView from '../../Recipe/RecipeView';
 import RecipeEditor from "../../Recipe/RecipeEditor";
+import RecipeBookEditor from "../../RecipeBookEditor";
 
 const PrivateSwitch = ({logOut}) => {
   return (
@@ -42,6 +43,9 @@ const PrivateSwitch = ({logOut}) => {
       </Route>
       <Route path="/editRecipe/:bookId/:recipeId">
         <RecipeEditor />
+      </Route>
+      <Route path="/editRecipeBook/:bookId">
+        <RecipeBookEditor />
       </Route>
       <Route path="/logout">
         {() => logOut()}
