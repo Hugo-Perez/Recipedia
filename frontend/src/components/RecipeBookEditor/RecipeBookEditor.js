@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import './RecipeBookEditor.css';
-import {useHistory} from "react-router-dom";
+import {useHistory, useParams} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import {API_URL} from "../../utils/constants";
 import Auth from "../../utils/auth";
@@ -12,13 +12,18 @@ const RecipeBookEditor = () => {
 
   const history = useHistory();
 
-  const { handleSubmit, register, errors, watch } = useForm({
+  const {bookId} = useParams();
+
+  const { handleSubmit, register, errors, setValue, watch } = useForm({
     reValidateMode: "onChange",
   });
 
   const watchPrivacy = watch("privacy");
 
   const onSubmit = (formData) => {
+    // Adding the id parameter to the form data
+    formData["id"] = bookId;
+
     // UI updates
     setLoading(true);
     setErrorMessage("");
@@ -61,18 +66,22 @@ const RecipeBookEditor = () => {
 
   useEffect(() => {
     // Getting Recipe Book from backend
-    fetch("http://localhost:8080/api/recipe/myRecipeBooks", {
+    fetch(`http://localhost:8080/api/recipe/recipeBook/?bookId=${bookId}`, {
       method: "GET",
       headers: {
         Authorization: Auth.authHeader(),
       },
-      body: "",
       redirect: "follow",
     })
       .then((response) => response.json())
-      .then((data) => setRecipeBook(data));
+      .then((data) => {
+        setRecipeBook(data);
+        setValue("title", data.title);
+        setValue("description", data.description);
+        setValue("privacy", data.privacy);
+      });
 
-  })
+  }, [])
 
   return (
     <div>
@@ -135,7 +144,7 @@ const RecipeBookEditor = () => {
         </div>
 
         <button className='w-100 btn btn-lg btn-primary' type='submit'>
-          {loading ? <span className='spinner-border'/> : "Create"}
+          {loading ? <span className='spinner-border'/> : "Save changes"}
         </button>
         {errorMessage && (
           <div className='alert alert-danger mt-3' role='alert'>

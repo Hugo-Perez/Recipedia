@@ -98,7 +98,13 @@ public class RecipeController {
             RecipeBook originalRecipeBook = recipeBookRepository.findFirstByIdAndOwner(recipeBook.getId(), user.get());
 
             if (originalRecipeBook != null) {
-                RecipeBook insertedBook = recipeBookRepository.save(recipeBook);
+
+                // We apply the changes to the original book so we control which fields get affected
+                originalRecipeBook.setTitle(recipeBook.getTitle());
+                originalRecipeBook.setDescription(recipeBook.getDescription());
+                originalRecipeBook.setPrivacy(recipeBook.isPrivacy());
+
+                RecipeBook insertedBook = recipeBookRepository.save(originalRecipeBook);
                 return ResponseEntity.ok(insertedBook);
             } else {
                 return ResponseEntity.badRequest().body(new ApiResponse("Original recipe book could not be found"));
