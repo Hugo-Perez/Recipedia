@@ -5,6 +5,7 @@ import {useHistory, useParams} from "react-router-dom";
 import {useForm} from "react-hook-form";
 import Auth from "../../../utils/auth";
 import {API_URL} from "../../../utils/constants";
+import Quill from "quill/core/quill";
 
 const RecipeEditor = () => {
   const [loading, setLoading] = useState(false);
@@ -94,7 +95,7 @@ const RecipeEditor = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <form className='row' onSubmit={handleSubmit(onSubmit)}>
         <div className='col-md-4'>
 
