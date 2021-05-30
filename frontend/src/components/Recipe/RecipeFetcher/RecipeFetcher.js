@@ -26,7 +26,7 @@ const RecipeFetcher = ({bookId}) => {
 
   if (recipeBook.recipes?.length <= 0) {
     return (
-      <div class="alert alert-primary" role="alert">
+      <div className="alert alert-primary" role="alert">
         You don't have any recipe created yet, &nbsp;
         <Link className="alert-link" to={`/newRecipe/${recipeBook.id}`}> Why don't you try creating one?</Link>
       </div>
