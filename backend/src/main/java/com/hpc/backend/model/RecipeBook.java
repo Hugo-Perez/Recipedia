@@ -21,8 +21,7 @@ public class RecipeBook {
 
     private boolean privacy;
 
-    @Value(value = "true")
-    private boolean deletable;
+    private boolean deletable = true;
 
     @ManyToOne
     private User owner;

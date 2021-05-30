@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import './RecipeBookEditor.css';
 import {useHistory} from "react-router-dom";
 import {useForm} from "react-hook-form";
@@ -9,10 +9,13 @@ const RecipeBookEditor = () => {
   const [recipeBook, setRecipeBook] = useState({});
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
+
   const history = useHistory();
+
   const { handleSubmit, register, errors, watch } = useForm({
     reValidateMode: "onChange",
   });
+
   const watchPrivacy = watch("privacy");
 
   const onSubmit = (formData) => {

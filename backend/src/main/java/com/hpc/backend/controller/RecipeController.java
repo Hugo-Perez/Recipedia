@@ -11,6 +11,7 @@ import com.hpc.backend.repository.RecipeRepository;
 import com.hpc.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
 import org.springframework.web.bind.annotation.*;
 
@@ -19,6 +20,9 @@ import java.util.*;
 @RestController
 @RequestMapping("/api/recipe")
 public class RecipeController {
+
+    @Autowired
+    AuthenticationManager authenticationManager;
 
     @Autowired
     RecipeBookRepository recipeBookRepository;
@@ -35,7 +39,7 @@ public class RecipeController {
 
     @RequestMapping(value = "/recipeBook", method = RequestMethod.GET)
     public ResponseEntity<?> getRecipeBook(Authentication authentication, @RequestParam long bookId) {
-        if (authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
             Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 
@@ -66,7 +70,7 @@ public class RecipeController {
 
     @RequestMapping(value = "/newRecipeBook", method = RequestMethod.POST)
     public ResponseEntity<?> newRecipeBook(Authentication authentication, @RequestBody RecipeBook recipeBook) {
-        if (authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
             Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 
@@ -87,7 +91,7 @@ public class RecipeController {
 
     @RequestMapping(value = "/editRecipeBook", method = RequestMethod.PUT)
     public ResponseEntity<?> editRecipeBook(Authentication authentication, @RequestBody RecipeBook recipeBook) {
-        if (authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
             Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 
@@ -107,7 +111,7 @@ public class RecipeController {
 
     @RequestMapping(value = "/deleteRecipeBook", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteRecipeBook(Authentication authentication, @RequestParam long bookId) {
-        if (authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
             Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 
@@ -142,7 +146,7 @@ public class RecipeController {
 
     @RequestMapping(value = "/myRecipeBooks", method = RequestMethod.POST)
     public ResponseEntity<?> myRecipeBooks(Authentication authentication) {
-        if (authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
             Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 
@@ -162,7 +166,7 @@ public class RecipeController {
 
     @RequestMapping(value = "/newRecipe", method = RequestMethod.POST)
     public ResponseEntity<?> newRecipe(Authentication authentication, @RequestParam Long recipeBookId,  @RequestBody Recipe recipe) {
-        if (authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
             Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 
@@ -186,7 +190,7 @@ public class RecipeController {
 
     @RequestMapping(value = "/getRecipe", method = RequestMethod.GET)
     public ResponseEntity<?> getRecipe(Authentication authentication, @RequestParam Long recipeId) {
-        if (authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
             Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 
@@ -212,7 +216,7 @@ public class RecipeController {
 
     @RequestMapping(value = "/editRecipe", method = RequestMethod.PUT)
     public ResponseEntity<?> editRecipe(Authentication authentication, @RequestParam Long recipeBookId, @RequestParam Long recipeId,  @RequestBody Recipe recipe) {
-        if (authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
             Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 
@@ -242,7 +246,7 @@ public class RecipeController {
 
     @RequestMapping(value = "/deleteRecipe", method = RequestMethod.DELETE)
     public ResponseEntity<?> deleteRecipe(Authentication authentication, @RequestParam Long recipeId) {
-        if (authentication.isAuthenticated()) {
+        if (authentication != null && authentication.isAuthenticated()) {
             UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
             Optional<User> user = userRepository.findByUsername(userDetails.getUsername());
 

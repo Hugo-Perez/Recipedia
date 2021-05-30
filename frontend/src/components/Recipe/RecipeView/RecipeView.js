@@ -44,7 +44,7 @@ const RecipeView = () => {
   }, [recipeId])
 
   return(
-    <div className="container">
+    <div className="container pb-4">
       <div className="row"> 
         {isOwner
           && [  

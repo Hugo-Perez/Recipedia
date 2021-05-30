@@ -75,7 +75,7 @@ const RecipeCreator = () => {
   };
 
   return (
-    <div>
+    <div className="container">
       <form className='row' onSubmit={handleSubmit(onSubmit)}>
         <div className='col-md-4'>
           
