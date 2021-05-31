@@ -1,0 +1,4 @@
+.recipe-col {
+    max-height: 78vh;
+    overflow-y: auto;
+}

@@ -3,13 +3,13 @@ import './RecipeCard.css';
 
 const RecipeCard = ({recipe}) => {
 
-  const getImageSrc = () => {
-    return `/images/recipe/${recipe.image || "default-recipe.png"}`
+  const getDefaultImage = (e) => {
+    e.target.src = "/images/recipe/default-recipe.png";
   }
 
   return(
     <div className="card p-0 recipe-card m-auto" >
-      <img src={getImageSrc()} className="card-img recipe-image" alt={recipe.title}/>
+      <img src={`/images/recipe/${recipe.id}.png`} onError={(e) => getDefaultImage(e)} className="card-img recipe-image" alt={recipe.title}/>
       <div className="card-body">
         <h5 className="card-title">{recipe.title}</h5>
       </div>

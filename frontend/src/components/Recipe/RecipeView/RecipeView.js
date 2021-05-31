@@ -4,7 +4,6 @@ import './RecipeView.css';
 import {Link, useHistory, useParams} from 'react-router-dom';
 
 import Auth from '../../../utils/auth.js';
-import Functions from '../../../utils/functions.js';
 
 const RecipeView = () => {
 
@@ -57,15 +56,35 @@ const RecipeView = () => {
             </div>
           ]
         }
-        <div className="col-sm-12 col-md-8 col-xl-8 mx-auto bg-dark text-white">
+        <div className="col-sm-12 col-md-8 col-xl-8 mx-auto bg-dark text-white recipe-col">
           <h3 className="display-5"><i>{recipe?.title}</i></h3>
           <h3 className="lead">{recipe?.description}</h3>
           <hr/>
           <h3 className="lead">Ingredients:</h3>
-          <p>{recipe?.ingredients}</p>
+          <p>{
+            recipe?.ingredients?.split("\n").map(function(item, idx) {
+              return (
+                <span key={idx}>
+                  {item}
+                  <br/>
+                </span>
+              )
+            })
+          }</p>
           <hr/>
           <h3 className="lead">Steps:</h3>
-          <p>{recipe?.steps}</p>
+          <p>
+            {
+              recipe?.steps?.split("\n").map(function(item, idx) {
+                return (
+                  <span key={idx}>
+                    {item}
+                    <br/>
+                  </span>
+                )
+              })
+            }
+          </p>
         </div>
       </div>
     </div>

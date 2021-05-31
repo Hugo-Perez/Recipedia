@@ -3,9 +3,11 @@ import './RecipeEditor.css';
 
 import {useHistory, useParams} from "react-router-dom";
 import {useForm} from "react-hook-form";
+
 import Auth from "../../../utils/auth";
 import {API_URL} from "../../../utils/constants";
-import Quill from "quill/core/quill";
+
+
 
 const RecipeEditor = () => {
   const [loading, setLoading] = useState(false);
@@ -15,7 +17,7 @@ const RecipeEditor = () => {
   const history = useHistory();
   const { bookId, recipeId } = useParams();
 
-  const { handleSubmit, register, errors, setValue, watch } = useForm({
+  const { handleSubmit, register, errors, setValue } = useForm({
     reValidateMode: "onChange",
   });
 
