@@ -44,11 +44,12 @@ const RecipeView = () => {
 
   return(
     <div className="container pb-4">
-      <div className="row"> 
+      <div className="row">
         {isOwner
           && [  
             <div className="col-sm-12 col-md-2">
-              <div className="container-fluid bg-dark py-2 text-white"> 
+              <div className="container-fluid bg-dark py-2 text-white">
+                <img src={recipe.imageURL} className="img-fluid" alt={recipe.title}/>
                 <h5 className="mx-auto">Owner actions</h5>
                 <Link to={`/editRecipe/${recipe?.recipeBook?.id}/${recipe?.id}`} className="btn btn-outline-warning mx-auto my-2 w-100">Edit recipe</Link>
                 <button onClick={() => deleteRecipe()} className="btn btn-outline-danger mx-auto my-2 w-100">Delete recipe</button>

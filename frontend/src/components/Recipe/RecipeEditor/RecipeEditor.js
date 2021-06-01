@@ -6,6 +6,8 @@ import {useForm} from "react-hook-form";
 
 import Auth from "../../../utils/auth";
 import {API_URL} from "../../../utils/constants";
+import {storage} from "../../../firebase/firebase";
+
 
 
 
@@ -13,6 +15,9 @@ const RecipeEditor = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [recipeBooks, setRecipeBooks] = useState([]);
+  const [file, setFile] = useState(null);
+  const [imageURL, setImageURL] = useState("");
+
 
   const history = useHistory();
   const { bookId, recipeId } = useParams();
@@ -20,6 +25,23 @@ const RecipeEditor = () => {
   const { handleSubmit, register, errors, setValue } = useForm({
     reValidateMode: "onChange",
   });
+
+  const changeImage = (e) => {
+    setFile(e.target.files[0]);
+  }
+
+  const uploadImage = async () => {
+    return new Promise(function(resolve, reject) {
+      const uploadTask = storage.ref(`/images/${file.name}`).put(file);
+      uploadTask.on("state_changed", console.log, () => reject(undefined), () => {
+        storage
+          .ref("images")
+          .child(file.name)
+          .getDownloadURL()
+          .then((imgURL) => resolve(imgURL));
+      });
+    });
+  }
 
   useEffect(() => {
     // Recipe Books fetching
@@ -48,19 +70,25 @@ const RecipeEditor = () => {
         setValue("description", recipe?.description);
         setValue("ingredients", recipe?.ingredients);
         setValue("steps", recipe?.steps);
+        setImageURL(recipe?.imageURL);
       });
 
   }, [bookId, recipeId]);
 
 
-  const onSubmit = (formData) => {
-    const recipeBookId = formData.recipeBook;
-    delete formData.recipeBook;
-    console.log(formData);
-
+  const onSubmit = async (formData) => {
     // UI updates
     setLoading(true);
     setErrorMessage("");
+
+    //Image uploading
+    let url = await uploadImage().catch((err) => imageURL );
+
+    const recipeBookId = formData.recipeBook;
+    delete formData.recipeBook;
+    formData.imageURL = url ||"/images/recipe/default-recipe.png";
+    console.log(formData);
+
 
     fetch(API_URL + `recipe/editRecipe/?recipeBookId=${recipeBookId}&recipeId=${recipeId}`, {
       method: "PUT",
@@ -171,6 +199,16 @@ const RecipeEditor = () => {
             />
             <label htmlFor='description'>Ingredients</label>
             <p className='form-error'>{errors.ingredients?.message}</p>
+          </div>
+
+          <div className='form-group mb-4'>
+            <label htmlFor="image">Add a picture: </label>
+            <input
+              className="form-control"
+              type="file"
+              name="image"
+              id="image"
+              onChange={(e) => changeImage(e)}/>
           </div>
 
           <button className='w-100 btn btn-lg btn-primary' type='submit'>

@@ -36,8 +36,18 @@ const Home = () => {
       },
       redirect: "follow",
     })
-      .then((response) => response.json())
-      .then((data) => setRecipeBooks(data));
+      .then(async (response) =>{
+          let data = await response.json();
+
+          if (response.status === 403) {
+            Auth.logout();
+            window.location.reload();
+          }
+
+          return data;
+      })
+      .then((data) => setRecipeBooks(data))
+      .catch((err) => console.error(err));
   }, []);
 
   return(

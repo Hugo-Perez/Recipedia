@@ -3,6 +3,7 @@ import "./RecipeCreator.css";
 
 import { useHistory, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
+
 import Auth from "../../../utils/auth";
 import { API_URL } from "../../../utils/constants";
 import {storage} from "../../../firebase/firebase";
@@ -12,7 +13,7 @@ const RecipeCreator = () => {
   const [errorMessage, setErrorMessage] = useState("");
   const [recipeBooks, setRecipeBooks] = useState([]);
   const [file, setFile] = useState(null);
-  const [url, setURL] = useState("");
+  //const [url, setURL] = useState("");
 
   const history = useHistory();
   const { bookId } = useParams();
@@ -38,9 +39,16 @@ const RecipeCreator = () => {
     setFile(e.target.files[0]);
   }
 
-  const uploadImage = () => {
-    const uploadTask = storage.ref(`/images/${file.name}`).put(file);
-    uploadTask.on("state_changed", console.log, console.error, () => {
+  const uploadImage = async () => {
+    return new Promise(function(resolve, reject) {
+      const uploadTask = storage.ref(`/images/${file.name}`).put(file);
+      uploadTask.on("state_changed", console.log, () => reject(), () => {
+        storage
+          .ref("images")
+          .child(file.name)
+          .getDownloadURL()
+          .then((imgURL) => resolve(imgURL));
+      });
     });
   }
 
@@ -50,7 +58,7 @@ const RecipeCreator = () => {
     setErrorMessage("");
 
     //Image uploading
-    let url = await storage.ref("images").child(file.name).getDownloadURL();
+    let url = await uploadImage().catch(() => "");
 
     console.log(url);
 
