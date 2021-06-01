@@ -5,11 +5,14 @@ import { useHistory, useParams } from "react-router-dom";
 import { useForm } from "react-hook-form";
 import Auth from "../../../utils/auth";
 import { API_URL } from "../../../utils/constants";
+import {storage} from "../../../firebase/firebase";
 
 const RecipeCreator = () => {
   const [loading, setLoading] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [recipeBooks, setRecipeBooks] = useState([]);
+  const [file, setFile] = useState(null);
+  const [url, setURL] = useState("");
 
   const history = useHistory();
   const { bookId } = useParams();
@@ -31,14 +34,31 @@ const RecipeCreator = () => {
       .then((data) => setRecipeBooks(data));
   }, []);
 
-  const onSubmit = (formData) => {
-    const {recipeBook} = formData;
-    delete formData.recipeBook;
-    console.log(formData);
+  const changeImage = (e) => {
+    setFile(e.target.files[0]);
+  }
 
+  const uploadImage = () => {
+    const uploadTask = storage.ref(`/images/${file.name}`).put(file);
+    uploadTask.on("state_changed", console.log, console.error, () => {
+    });
+  }
+
+  const onSubmit = async (formData) => {
     // UI updates
     setLoading(true);
     setErrorMessage("");
+
+    //Image uploading
+    let url = await storage.ref("images").child(file.name).getDownloadURL();
+
+    console.log(url);
+
+    const {recipeBook} = formData;
+    delete formData.recipeBook;
+    formData.imageURL = url ||"/images/recipe/default-recipe.png";
+    console.log(formData);
+
 
     fetch(API_URL + `recipe/newRecipe?recipeBookId=${recipeBook}`, {
       method: "POST",
@@ -122,7 +142,7 @@ const RecipeCreator = () => {
 
           <div className='form-floating'>
             <select
-              className=' form-select form-select-lg'
+              className=' form-select '
               name='recipeBook'
               id='recipeBook'
               ref={register({
@@ -152,6 +172,16 @@ const RecipeCreator = () => {
             />
             <label htmlFor='description'>Ingredients</label>
             <p className='form-error'>{errors.ingredients?.message}</p>
+          </div>
+
+          <div className='form-group mb-4'>
+            <label htmlFor="image">Add a picture: </label>
+            <input
+              className="form-control"
+              type="file"
+              name="image"
+              id="image"
+              onChange={(e) => changeImage(e)}/>
           </div>
 
           <button className='w-100 btn btn-lg btn-primary' type='submit'>

@@ -9,7 +9,7 @@ const RecipeCard = ({recipe}) => {
 
   return(
     <div className="card p-0 recipe-card m-auto" >
-      <img src={`/images/recipe/${recipe.id}.png`} onError={(e) => getDefaultImage(e)} className="card-img recipe-image" alt={recipe.title}/>
+      <img src={recipe.imageURL} className="card-img recipe-image" alt={recipe.title}/>
       <div className="card-body">
         <h5 className="card-title">{recipe.title}</h5>
       </div>

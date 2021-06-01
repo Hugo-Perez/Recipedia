@@ -1,6 +1,5 @@
 package com.hpc.backend.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 import javax.persistence.*;
@@ -24,16 +23,19 @@ public class Recipe {
     @JsonIgnoreProperties("recipes")
     private RecipeBook recipeBook;
 
+    private String imageURL;
+
     public Recipe() {
     }
 
-    public Recipe(long id, String title, String description, String ingredients, String steps, RecipeBook recipeBook) {
+    public Recipe(long id, String title, String description, String ingredients, String steps, RecipeBook recipeBook, String imageURL) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
         this.recipeBook = recipeBook;
+        this.imageURL = imageURL;
     }
 
 
@@ -84,5 +86,13 @@ public class Recipe {
 
     public void setRecipeBook(RecipeBook recipeBook) {
         this.recipeBook = recipeBook;
+    }
+
+    public String getImageURL() {
+        return imageURL;
+    }
+
+    public void setImageURL(String imageURL) {
+        this.imageURL = imageURL;
     }
 }
