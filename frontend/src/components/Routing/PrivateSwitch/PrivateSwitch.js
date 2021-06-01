@@ -20,10 +20,7 @@ const PrivateSwitch = ({logOut}) => {
   return (
     <Switch>
       {/* Logged in routes */}
-      <Route exact path="/home/">
-        <Home />
-      </Route>
-      <Route path="/home/:bookId">
+      <Route path="/home/:bookId?">
         <Home />
       </Route>
       <Route path="/profile/:username">

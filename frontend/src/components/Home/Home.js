@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import {Link, NavLink, useParams} from "react-router-dom";
+import {Link, NavLink, useHistory, useParams} from "react-router-dom";
 import "./Home.css";
 
 import Auth from "../../utils/auth";
@@ -10,6 +10,7 @@ const Home = () => {
 
   const [recipeBooks, setRecipeBooks] = useState([]);
   const {bookId} = useParams();
+  const history = useHistory();
 
   const deleteRecipeBook = (bookId) => {
     if (window.confirm("Are you sure you want to delete this recipeBook?")) {
@@ -46,7 +47,14 @@ const Home = () => {
 
           return data;
       })
-      .then((data) => setRecipeBooks(data))
+      .then((data) => {
+        setRecipeBooks(data)
+        console.log(bookId)
+        if (bookId === undefined) {
+          let defaultBook = data.find((recipebook) => recipebook.deletable === false)
+          history.push(`/home/${defaultBook.id}`);
+        }
+      })
       .catch((err) => console.error(err));
   }, []);
 
