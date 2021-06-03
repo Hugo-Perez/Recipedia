@@ -1,0 +1,7 @@
+#page {
+    width: 4rem;
+}
+
+#page::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+}

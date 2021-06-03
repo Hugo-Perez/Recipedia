@@ -1,6 +1,5 @@
 package com.hpc.backend.controller;
 
-import com.fasterxml.jackson.annotation.JsonView;
 import com.hpc.backend.config.services.UserDetailsImpl;
 import com.hpc.backend.model.ApiResponse;
 import com.hpc.backend.model.Recipe;
@@ -10,6 +9,9 @@ import com.hpc.backend.repository.RecipeBookRepository;
 import com.hpc.backend.repository.RecipeRepository;
 import com.hpc.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -205,6 +207,8 @@ public class RecipeController {
             if (recipe.isPresent()) {
                 boolean isOwner = recipe.get().getRecipeBook().getOwner().equals(user.get());
 
+                recipeRepository.addView(recipeId);
+
                 Map<String, Object> response = new HashMap<>();
 
                 response.put("recipe", recipe);
@@ -270,6 +274,17 @@ public class RecipeController {
                 return ResponseEntity.badRequest().body(new ApiResponse("Recipe could not be found, try again"));
             }
 
+        } else {
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
+        }
+    }
+
+    @RequestMapping(value = "/searchRecipes", method = RequestMethod.GET)
+    public ResponseEntity<?> searchRecipes(Authentication authentication, String searchText, Pageable page) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            Page<Recipe> recipesFound = recipeRepository.findByTitleContainingOrDescriptionContaining(searchText, searchText, page);
+
+            return ResponseEntity.ok(recipesFound);
         } else {
             return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
         }

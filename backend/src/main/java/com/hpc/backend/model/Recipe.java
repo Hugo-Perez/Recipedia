@@ -23,18 +23,21 @@ public class Recipe {
     @JsonIgnoreProperties("recipes")
     private RecipeBook recipeBook;
 
+    private long views;
+
     private String imageURL;
 
     public Recipe() {
     }
 
-    public Recipe(long id, String title, String description, String ingredients, String steps, RecipeBook recipeBook, String imageURL) {
+    public Recipe(long id, String title, String description, String ingredients, String steps, RecipeBook recipeBook, long views, String imageURL) {
         this.id = id;
         this.title = title;
         this.description = description;
         this.ingredients = ingredients;
         this.steps = steps;
         this.recipeBook = recipeBook;
+        this.views = views;
         this.imageURL = imageURL;
     }
 
@@ -94,5 +97,13 @@ public class Recipe {
 
     public void setImageURL(String imageURL) {
         this.imageURL = imageURL;
+    }
+
+    public long getViews() {
+        return views;
+    }
+
+    public void setViews(long views) {
+        this.views = views;
     }
 }
