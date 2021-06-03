@@ -9,3 +9,7 @@
 #steps {
   height: 40rem;
 }
+
+.form-floating > label {
+  color: black
+}

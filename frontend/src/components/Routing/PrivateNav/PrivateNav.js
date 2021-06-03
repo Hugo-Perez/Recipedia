@@ -9,8 +9,8 @@ const PrivateNav = ({user}) => {
       <ul className="navbar-nav ms-auto mb-2 mb-lg-0">
         
         <li className="nav-item">
-          <NavLink className="nav-link" to="/newRecipeBook">
-            New Recipe Book
+          <NavLink className="nav-link" to="/searchRecipes">
+            Search Recipes
           </NavLink>
         </li>
         <li className="nav-item">

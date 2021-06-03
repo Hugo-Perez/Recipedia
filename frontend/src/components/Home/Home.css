@@ -17,3 +17,8 @@
     max-width: 7rem !important;
   }
 }
+
+.home-container {
+  height: 75vh;
+}
+

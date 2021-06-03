@@ -125,7 +125,7 @@ const RecipeEditor = () => {
   };
 
   return (
-    <div className="container">
+    <div className="container bg-dark text-light">
       <form className='row' onSubmit={handleSubmit(onSubmit)}>
         <div className='col-md-4'>
 

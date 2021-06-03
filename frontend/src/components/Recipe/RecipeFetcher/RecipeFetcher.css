@@ -1,10 +1,20 @@
 #recipes {
-  max-height: 84.5vh;
   padding-bottom: 3rem;
-  -ms-overflow-style: none;  /* IE and Edge */
-  scrollbar-width: none;  /* Firefox */
+}
+
+#recipes::-webkit-scrollbar-track {
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,0.3);
+  border-radius: 10px;
+  background-color: #343a40;
 }
 
 #recipes::-webkit-scrollbar {
-  display: none;  /* Chrome based */
+  width: 12px;
+  background-color: #343a40;
+}
+
+#recipes::-webkit-scrollbar-thumb {
+  border-radius: 10px;
+  -webkit-box-shadow: inset 0 0 6px rgba(0,0,0,.3);
+  background-color: #dbdbdb;
 }
