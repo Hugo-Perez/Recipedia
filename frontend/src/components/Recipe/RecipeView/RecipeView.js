@@ -13,6 +13,9 @@ const RecipeView = () => {
   const [isOwner, setIsOwner] = useState({});
   const {recipeId} = useParams();
 
+  //Random pastel generation
+  const bgColor = "hsla(" + ~~(360 * Math.random()) + "," + "70%," + "80%,1)"
+
   const deleteRecipe = () => {
     if (window.confirm("Are you sure you want to delete this recipe?")) {
       fetch(`http://localhost:8080/api/recipe/deleteRecipe/?recipeId=${recipe.id}`, {
@@ -23,7 +26,7 @@ const RecipeView = () => {
         body: "",
         redirect: "follow",
       })
-        .then((response) => history.push("/home"));
+        .then((response) =>{ if(response.ok) history.push("/home")});
     }
   }
 
@@ -58,8 +61,11 @@ const RecipeView = () => {
           ]
         }
         <div className="col-sm-12 col-md-8 col-xl-8 mx-auto bg-dark text-white recipe-col">
-          <h3 className="display-5"><i>{recipe?.title}</i></h3>
-          <h3 className="lead">{recipe?.description}</h3>
+          <div className="recipe-view-header d-flex flex-column mt-3" style={{backgroundImage: `url(${recipe.imageURL})`, backgroundColor: bgColor}}>
+            <h3 className="recipe-image-txt display-5 px-1 mb-0"><i>{recipe?.title}</i></h3>
+            <h3 className="recipe-image-txt lead px-1">{recipe?.description}</h3>
+            <h3 className="recipe-image-txt lead px-1 mb-0 mt-auto"><Link to={`/profile/${recipe?.recipeBook?.author}`} className="link-azul">Author: {recipe?.recipeBook?.author}</Link></h3>
+          </div>
           <hr/>
           <h3 className="lead">Ingredients:</h3>
           <p>{

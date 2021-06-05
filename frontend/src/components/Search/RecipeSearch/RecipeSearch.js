@@ -12,15 +12,16 @@ const RecipeSearch = () => {
       type: "",
       sort: "title",
       order: "asc",
-      page: 1
+      page: "1"
     }
   });
   const filters = watch();
+  console.log(filters)
 
   return(
-    <div className="container bg-dark text-light p-4 h-75">
-      <div className="row">
-        <div className="col-md-3 flex-grow">
+    <div className="container home-container bg-dark text-light p-4">
+      <div className="row h-100 overflow-hidden">
+        <div className="col-md-3">
           <div className="mb-2 display-6">Find your recipes:</div>
 
           <div className="form-group my-2">
@@ -62,8 +63,8 @@ const RecipeSearch = () => {
               </select>
             </div>
           </div>
-        <div className="col-md-9">
-          <div className="d-flex justify-content-between align-items-center mb-4">
+        <div className="col-md-9 mh-100 overflow-auto cool-scrollbar">
+          <div className="d-flex justify-content-between align-items-center bg-dark pb-4 sticky-top mb-4">
             <div className="display-6">Recipes found:</div>
             <div role="group" aria-label="First group">
               <button type="button"
@@ -74,17 +75,14 @@ const RecipeSearch = () => {
               </button>
               <input id="page" name="page" ref={register()} min="1" type="number" className="btn btn-primary mx-1" />
               <button type="button"
-
                       onClick={() => setValue("page", Number(filters.page) + 1)}
                       className="btn btn-primary mx-1">
                 <i className="bi bi-arrow-right"/>
               </button>
             </div>
           </div>
-          <div>
-            <div className="row row-cols-1 row-cols-sm-2 row-cols-md-2 row-cols-lg-3 row-cols-xl-3 g-2">
-              <SearchFetcher filters={filters} />
-            </div>
+          <div id="recipes" className="row row-cols-sm-1 row-cols-md-2 row-cols-lg-3 g-3">
+            <SearchFetcher filters={filters} />
           </div>
         </div>
       </div>

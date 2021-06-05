@@ -22,7 +22,7 @@ const RecipeEditor = () => {
   const history = useHistory();
   const { bookId, recipeId } = useParams();
 
-  const { handleSubmit, register, errors, setValue } = useForm({
+  const { handleSubmit, register, errors, setValue, getValues } = useForm({
     reValidateMode: "onChange",
   });
 
@@ -125,12 +125,12 @@ const RecipeEditor = () => {
   };
 
   return (
-    <div className="container bg-dark text-light">
+    <div className="container bg-dark p-3 text-light">
       <form className='row' onSubmit={handleSubmit(onSubmit)}>
         <div className='col-md-4'>
 
           <h3 className='h3 mb-3 mx-auto fw-normal text-center'>
-            Create a new recipe
+            Editing recipe
           </h3>
           <div className='form-floating'>
             <input

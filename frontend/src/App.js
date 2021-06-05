@@ -28,7 +28,7 @@ const App = () => {
   return (
     <Router>
       <Navbar />
-      <div className='content container-fluid'>
+      <div id="app-content" className='content container-fluid'>
         {currentUser ? <PrivateSwitch logOut={logOut} /> : <PublicSwitch />}
       </div>
       <Footer />

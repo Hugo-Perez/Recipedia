@@ -26,18 +26,16 @@ const RecipeFetcher = ({bookId}) => {
 
   if (recipeBook.recipes?.length <= 0) {
     return (
-      <div className="alert alert-primary" role="alert">
+      <div className="alert w-75 mx-auto mt-5 alert-primary" role="alert">
         You don't have any recipe created yet, &nbsp;
         <Link className="alert-link" to={`/newRecipe/${recipeBook.id}`}> Why don't you try creating one?</Link>
       </div>
     )
   } else {
     return(
-      <div className="row row-cols-1 h-100 mh-100" >
-        <div id="recipes" className=" row row-cols-2 h-100 mt-0 g-3 overflow-auto">
+        <div id="recipes" className="row py-2 row-cols-md-2 g-3">
           <RecipeList recipeBook={recipeBook}/>
         </div>
-      </div>
     );
   }
 

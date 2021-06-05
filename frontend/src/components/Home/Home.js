@@ -59,9 +59,9 @@ const Home = () => {
   }, []);
 
   return(
-    <div className="container  home-container bg-dark">
-      <div className="row h-100">
-        <div className="col-md-3 pb-3">
+    <div className="container home-container bg-dark">
+      <div className="row h-100 overflow-hidden">
+        <div className="col-lg-3 pb-3">
           <nav className="navbar navbar-dark bg-dark sidebar align-content-between h-100 ">
             <ul className="nav nav-pills flex-column w-100 mx-1">
               {recipeBooks?.map((book) => (
@@ -90,7 +90,7 @@ const Home = () => {
             </div>
           </nav>
         </div>
-        <div className="col-md-9 h-100">
+        <div className="col-lg-9 mh-100 overflow-auto cool-scrollbar">
           {(bookId)
           ? <RecipeFetcher bookId={bookId} />
           : <h1>no book</h1>}

@@ -3,7 +3,7 @@
 }
 
 .recipe-link > .recipe-card:hover {
-  -webkit-box-shadow: 0px 0px 6px 3px rgba(255, 255, 255, 0.5);
-  -moz-box-shadow: 0px 0px 6px 3px rgba(255, 255, 255, 0.5);
-  box-shadow: 0px 0px 6px 3px rgba(255, 255, 255, 0.5);
+  -webkit-box-shadow: 0px 0px 6px 3px black;
+  -moz-box-shadow: 0px 0px 6px 3px black;
+  box-shadow: 0px 0px 6px 3px black;
 }

@@ -12,7 +12,7 @@ const SearchFetcher = ({filters}) => {
 
 
   useEffect(() => {
-    const URL = `${API_URL}recipe/searchRecipes/?searchText=${filters?.searchText}&page=${filters?.page-1}&sort=${filters.sort},${filters.order}`;
+    const URL = `${API_URL}recipe/searchRecipes/?searchText=${filters?.searchText}&page=${Number(filters?.page)-1}&pageSize=24&sort=${filters.sort},${filters.order}`;
 
     fetch(URL, {
       method: "GET",
@@ -30,7 +30,7 @@ const SearchFetcher = ({filters}) => {
 
   if (recipes?.content?.length === 0) {
     return(
-      <div className="col-12 alert alert-primary" role="alert">
+      <div className="alert alert-primary" role="alert">
         No recipes have been found, try changing your parameters
       </div>
     );
@@ -40,7 +40,7 @@ const SearchFetcher = ({filters}) => {
     return (
       <>
         {recipes.content.map((recipe) => (
-          <div className="col" key={`${recipe.id}`}>
+          <div key={`${recipe.id}`}>
             <Link className="recipe-link" to={`/recipe/${recipe.id}`}>
               <RecipeCard recipe={recipe} key={`${recipe.id}`}/>
             </Link>

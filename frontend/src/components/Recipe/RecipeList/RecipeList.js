@@ -21,7 +21,7 @@ const RecipeList = ({recipeBook}) => {
     return(
       <>
         {recipeBook.recipes?.map(recipe => (
-          <div class="col">
+          <div key={recipe.id}>
             <Link className="recipe-link" to={`/recipe/${recipe.id}`}>
               <RecipeCard recipe={recipe} key={`${recipe.id}`}/>
             </Link>

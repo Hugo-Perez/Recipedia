@@ -18,7 +18,7 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg sticky-top navbar-dark bg-dark">
       <div className="container">
-        <NavLink className="navbar-brand" to="/home/">
+        <NavLink className="navbar-brand" to="/home">
           <img src="/images/logo.png" alt="Recipedia logo" width="27" height="27" className="d-inline-block align-text-top me-2"/>
           Recipedia
         </NavLink>  

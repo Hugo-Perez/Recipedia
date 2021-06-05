@@ -103,7 +103,7 @@ const RecipeCreator = () => {
   };
 
   return (
-    <div id="recipe-creator" className="container bg-dark text-light">
+    <div id="recipe-creator" className="container bg-dark p-3 text-light">
       <form className='row' onSubmit={handleSubmit(onSubmit)}>
         <div className='col-md-4'>
           
