@@ -12,6 +12,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
+import org.springframework.data.jpa.domain.Specification;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.Authentication;
@@ -280,11 +282,39 @@ public class RecipeController {
     }
 
     @RequestMapping(value = "/searchRecipes", method = RequestMethod.GET)
-    public ResponseEntity<?> searchRecipes(Authentication authentication, String searchText, Pageable page) {
+    public ResponseEntity<?> searchRecipes(Authentication authentication, String searchText, String ingredients, Pageable page) {
         if (authentication != null && authentication.isAuthenticated()) {
-            Page<Recipe> recipesFound = recipeRepository.findByTitleContainingOrDescriptionContaining(searchText, searchText, page);
+            Page<Recipe> recipesFound;
+
+            // We check if ingredients are present in the query
+            if (((ingredients != null) && (!ingredients.trim().isEmpty()))){
+                Collection<String> ingredientsCollection = Arrays.asList(ingredients.trim().split(","));
+                String regexp = ingredientsCollection.stream()
+                        .reduce("", (first,second) -> first + "|" + second);
+                regexp = regexp.substring(1, regexp.length());
+
+                recipesFound = recipeRepository.searchWithIngredientsAndPrivacy(searchText, regexp, page);
+            } else {
+                System.out.println("Public search");
+                recipesFound = recipeRepository.searchWithPrivacy(searchText, page);
+            }
+
 
             return ResponseEntity.ok(recipesFound);
+        } else {
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
+        }
+    }
+
+    @RequestMapping(value = "/randomRecipe", method = RequestMethod.GET)
+    public ResponseEntity<?> searchRecipes(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            Recipe randomRecipe = recipeRepository.randomRecipe();
+
+            if (randomRecipe == null)
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body(new ApiResponse("No recipe found"));
+
+            return ResponseEntity.ok(randomRecipe);
         } else {
             return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
         }

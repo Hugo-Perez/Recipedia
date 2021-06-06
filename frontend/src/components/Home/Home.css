@@ -1,21 +1,5 @@
 .nav > .d-flex > .nav-link {
-  max-width: 12rem;
   color: white;
-}
-
-/* Breaking text later in sm size (the col becomes 12) */
-@media (max-width: 767px)  {
-  .nav > .d-flex > .nav-link {
-    max-width: 18rem !important;
-  }
-}
-
-
-/* Breaking text before in md size */
-@media (min-width: 768px) and (max-width: 992px) {
-  .nav > .d-flex > .nav-link {
-    max-width: 7rem !important;
-  }
 }
 
 .home-container {

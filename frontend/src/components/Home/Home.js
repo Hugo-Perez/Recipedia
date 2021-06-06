@@ -58,10 +58,12 @@ const Home = () => {
       .catch((err) => console.error(err));
   }, []);
 
+
+
   return(
     <div className="container home-container bg-dark">
       <div className="row h-100 overflow-hidden">
-        <div className="col-lg-3 pb-3">
+        <div className="col-lg-4 pb-3">
           <nav className="navbar navbar-dark bg-dark sidebar align-content-between h-100 ">
             <ul className="nav nav-pills flex-column w-100 mx-1">
               {recipeBooks?.map((book) => (
@@ -70,7 +72,11 @@ const Home = () => {
                     {book.title}
                   </NavLink>
                   {book.deletable && [
-                    <div className="btn-group">
+                    <div>
+                      <Link to={`/newRecipe/${book.id}`} type="button" className="btn btn-outline-success">
+                        <i className="bi bi-plus-lg"/>
+                      </Link>
+
                       <Link to={`/editRecipeBook/${book.id}`} type="button" className="btn btn-outline-warning">
                         <i className="bi bi-pencil-fill"/>
                       </Link>
@@ -90,7 +96,7 @@ const Home = () => {
             </div>
           </nav>
         </div>
-        <div className="col-lg-9 mh-100 overflow-auto cool-scrollbar">
+        <div className="col-lg-8 mh-100 overflow-auto cool-scrollbar">
           {(bookId)
           ? <RecipeFetcher bookId={bookId} />
           : <h1>no book</h1>}

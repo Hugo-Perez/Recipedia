@@ -3,20 +3,38 @@ import './RecipeSearch.css';
 
 import SearchFetcher from "../SearchFetcher";
 import {useForm} from "react-hook-form";
+import {API_URL} from "../../../utils/constants";
+import Auth from "../../../utils/auth";
+import {useHistory} from "react-router-dom";
 
 const RecipeSearch = () => {
 
   const { register, watch, setValue } = useForm({
     defaultValues: {
       searchText: "",
-      type: "",
+      ingredients: "",
       sort: "title",
       order: "asc",
       page: "1"
     }
   });
+
+  const history = useHistory();
   const filters = watch();
-  console.log(filters)
+
+  const getRandomRecipe = () => {
+    const URL = `${API_URL}recipe/randomRecipe`;
+
+    fetch(URL, {
+      method: "GET",
+      headers: {
+        Authorization: Auth.authHeader()
+      }
+    })
+      .then(response => response.json())
+      .then(randomRecipe => history.push(`/recipe/${randomRecipe?.id}`))
+      .catch(err => console.error(err));
+  }
 
   return(
     <div className="container home-container bg-dark text-light p-4">
@@ -37,14 +55,15 @@ const RecipeSearch = () => {
           </div>
 
           <div className="form-group my-2">
-            <label htmlFor="type">Recipe types:</label>
-            <select id="type" name="type" className="form-control" ref={register()} defaultValue={""}>
-              <option value="">Select a category</option>
-              <option value="vegan">Vegan</option>
-              <option value="vegetarian">Vegetarian</option>
-              <option value="fitness">Fitness</option>
-              <option value="traditional">Traditional</option>
-            </select>
+            <label htmlFor="type">Ingredients <small>(separated by commas)</small>:</label>
+            <input
+              type="text"
+              className="form-control"
+              id="ingredientsFilter"
+              name="ingredients"
+              placeholder="Type ingredients you have"
+              ref={register()}
+            />
           </div>
 
             <div className="form-group my-2">
@@ -56,11 +75,18 @@ const RecipeSearch = () => {
             </div>
 
             <div className="form-group my-2">
-              <label htmlFor="order">Order:</label>
+              <label htmlFor="order">Order: </label>
               <select id="order" name="order" className="form-control" ref={register()} defaultValue={"asc"}>
-                <option value="asc">Ascendant</option>
+                <option value="asc">Ascendant  </option>
                 <option value="desc">Descendant</option>
               </select>
+            </div>
+
+            <div className={"mt-4"}>
+              <button type={"button"} onClick={() => getRandomRecipe()} className={"btn btn-light text-start w-100"}>
+                <i className="bi bi-shuffle me-2"/>
+                Get random recipe
+              </button>
             </div>
           </div>
         <div className="col-md-9 mh-100 overflow-auto cool-scrollbar">

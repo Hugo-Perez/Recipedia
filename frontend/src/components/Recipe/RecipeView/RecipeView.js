@@ -13,8 +13,8 @@ const RecipeView = () => {
   const [isOwner, setIsOwner] = useState({});
   const {recipeId} = useParams();
 
-  //Random pastel generation
-  const bgColor = "hsla(" + ~~(360 * Math.random()) + "," + "70%," + "80%,1)"
+  //Random pastel color generation
+  const bgColor = "hsla(" + ~~(360 * Math.random()) + ", 70%, 80%, 1)"
 
   const deleteRecipe = () => {
     if (window.confirm("Are you sure you want to delete this recipe?")) {

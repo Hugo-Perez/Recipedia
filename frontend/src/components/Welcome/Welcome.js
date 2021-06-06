@@ -47,7 +47,7 @@ const Welcome = () => {
         <div className="row flex-lg-row-reverse align-items-center g-5 py-5">
           <div className="col-10 col-sm-8 col-lg-6">
             <img
-              src="https://via.placeholder.com/700x500/FF0000"
+              src="/images/welcome/home.jpg"
               className="d-block mx-lg-auto img-fluid rounded"
               alt="placeholder"
               width="700"
@@ -65,10 +65,11 @@ const Welcome = () => {
                   You can access your recipes, anywhere and from any device.
                 </li>
                 <li>
-                  Organize your recipes by type, ingredients, nationality and
-                  others.
+                  Organize your recipes by books, ingredients and more.
                 </li>
-                <li>Import existing recipes from other pages.</li>
+                <li>
+                  Save all the existing recipes from other pages in one place.
+                </li>
               </ul>
             </div>
           </div>

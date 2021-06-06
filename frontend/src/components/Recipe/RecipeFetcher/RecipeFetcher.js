@@ -33,7 +33,7 @@ const RecipeFetcher = ({bookId}) => {
     )
   } else {
     return(
-        <div id="recipes" className="row py-2 row-cols-md-2 g-3">
+        <div id="recipes" className="row py-2 row-cols-md-1 g-3">
           <RecipeList recipeBook={recipeBook}/>
         </div>
     );
