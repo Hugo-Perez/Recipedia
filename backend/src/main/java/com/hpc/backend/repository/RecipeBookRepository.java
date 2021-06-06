@@ -12,7 +12,9 @@ public interface RecipeBookRepository extends JpaRepository<RecipeBook, Long> {
 
     RecipeBook findFirstByIdAndOwner(Long id, User owner);
 
-    RecipeBook findFirstByDeletableAndOwner(Boolean deletable, User owner);
+    RecipeBook findFirstByTitleAndDeletableAndOwner(String title, Boolean deletable, User owner);
+
+
 
     boolean existsByTitle(String title);
 }

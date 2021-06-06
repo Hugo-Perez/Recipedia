@@ -11,8 +11,6 @@ import com.hpc.backend.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.jpa.domain.Specification;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -132,7 +130,7 @@ public class RecipeController {
                 // If we delete a book the recipes contained by it will be moved to the default book
                 if (originalRecipeBook.isDeletable()) {
 
-                    RecipeBook defaultBook = recipeBookRepository.findFirstByDeletableAndOwner(false, user.get());
+                    RecipeBook defaultBook = recipeBookRepository.findFirstByTitleAndDeletableAndOwner("My Recipes", false, user.get());
                     Iterator<Recipe> recipes = originalRecipeBook.getRecipes().iterator();
                     recipes.forEachRemaining((recipe)-> {
                         recipe.setRecipeBook(defaultBook);
@@ -319,4 +317,78 @@ public class RecipeController {
             return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
         }
     }
+
+
+
+    //==================================
+    //========= SAVED RECIPES ==========
+    //==================================
+
+    @RequestMapping(value = "/addSavedRecipe", method = RequestMethod.POST)
+    public ResponseEntity<?> addSavedRecipe(Authentication authentication,@RequestParam Long recipeId) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
+            Optional<User> userOptional = userRepository.findByUsername(userDetails.getUsername());
+            User user = userOptional.get();
+
+            List<Long> savedRecipes = user.getSavedRecipes();
+
+            if (savedRecipes == null){
+                user.setSavedRecipes(Arrays.asList(recipeId));
+            } else {
+                savedRecipes.add(recipeId);
+                user.setSavedRecipes(savedRecipes);
+            }
+
+            User updatedUser = userRepository.saveAndFlush(user);
+
+            return ResponseEntity.ok(updatedUser.getSavedRecipes());
+        } else {
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
+        }
+    }
+
+    @RequestMapping(value = "/removeSavedRecipe", method = RequestMethod.DELETE)
+    public ResponseEntity<?> removeSavedRecipe(Authentication authentication,@RequestParam Long recipeId) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
+            Optional<User> userOptional = userRepository.findByUsername(userDetails.getUsername());
+            User user = userOptional.get();
+
+            List<Long> savedRecipes = user.getSavedRecipes();
+
+            if (savedRecipes == null)
+                user.setSavedRecipes(Collections.emptyList());
+            else
+                user.getSavedRecipes().remove(recipeId);
+
+            User updatedUser = userRepository.saveAndFlush(user);
+
+            return ResponseEntity.ok(updatedUser.getSavedRecipes());
+        } else {
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
+        }
+    }
+
+    @RequestMapping(value = "/getSavedRecipes", method = RequestMethod.GET)
+    public ResponseEntity<?> getSavedRecipes(Authentication authentication) {
+        if (authentication != null && authentication.isAuthenticated()) {
+            UserDetailsImpl userDetails = (UserDetailsImpl)authentication.getPrincipal();
+            Optional<User> userOptional = userRepository.findByUsername(userDetails.getUsername());
+            User user = userOptional.get();
+
+            List<Long> savedRecipes = user.getSavedRecipes();
+
+            if (savedRecipes == null)
+                user.setSavedRecipes(Collections.emptyList());
+
+            List<Recipe> recipes = recipeRepository.findByIdIn(user.getSavedRecipes());
+
+            return ResponseEntity.ok(recipes);
+        } else {
+            return ResponseEntity.status(403).body(new ApiResponse("Authentication is needed for this method"));
+        }
+    }
+
 }
+

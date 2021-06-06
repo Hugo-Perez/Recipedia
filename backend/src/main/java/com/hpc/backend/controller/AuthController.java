@@ -2,6 +2,7 @@ package com.hpc.backend.controller;
 
 import com.hpc.backend.config.jwt.JwtUtils;
 import com.hpc.backend.config.services.UserDetailsImpl;
+import com.hpc.backend.model.Recipe;
 import com.hpc.backend.model.RecipeBook;
 import com.hpc.backend.model.auth.ERole;
 import com.hpc.backend.model.auth.Role;
@@ -23,9 +24,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.stream.Collectors;
 
 
@@ -117,9 +116,13 @@ public class AuthController {
         user.setRoles(roles);
         userRepository.save(user);
 
-        RecipeBook defaultRecipeBook = new RecipeBook("My Recipes", user.getUsername(), "This is your default recipe book", true, user);
+        RecipeBook defaultRecipeBook = new RecipeBook("My Recipes", user.getUsername(), "This is your default recipe book", false, user);
         defaultRecipeBook.setDeletable(false);
-        recipeBookRepository.save(defaultRecipeBook);
+        recipeBookRepository.saveAndFlush(defaultRecipeBook);
+
+        RecipeBook savedRecipes = new RecipeBook("Saved", user.getUsername(), "Your saved recipes are here", false, user);
+        savedRecipes.setDeletable(false);
+        recipeBookRepository.saveAndFlush(savedRecipes);
 
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }

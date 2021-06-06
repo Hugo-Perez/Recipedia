@@ -16,6 +16,7 @@ import RecipeView from '../../Recipe/RecipeView';
 import RecipeEditor from "../../Recipe/RecipeEditor";
 import RecipeBookEditor from "../../RecipeBookEditor";
 import RecipeSearch from "../../Search/RecipeSearch";
+import SavedRecipesView from "../../Recipe/SavedRecipesView";
 
 const PrivateSwitch = ({logOut}) => {
   return (
@@ -47,6 +48,9 @@ const PrivateSwitch = ({logOut}) => {
       </Route>
       <Route path="/searchRecipes">
         <RecipeSearch />
+      </Route>
+      <Route path="/mySavedRecipes">
+        <Home mode={"savedRecipes"}/>
       </Route>
       <Route path="/logout">
         {() => logOut()}

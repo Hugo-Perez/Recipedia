@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import javax.persistence.*;
 
 import javax.validation.constraints.*;
+import java.util.ArrayList;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 @Entity
@@ -32,6 +34,9 @@ public class User {
     @NotBlank
     @Size(max = 120, min = 8)
     private String password;
+
+    @ElementCollection
+        private List<Long> savedRecipes;
 
     @ManyToMany(fetch = FetchType.LAZY)
     @JoinTable(	name = "user_role",
@@ -86,5 +91,13 @@ public class User {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public List<Long> getSavedRecipes() {
+        return savedRecipes;
+    }
+
+    public void setSavedRecipes(List<Long> savedRecipes) {
+        this.savedRecipes = savedRecipes;
     }
 }

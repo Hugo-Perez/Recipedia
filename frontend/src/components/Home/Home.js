@@ -5,8 +5,9 @@ import "./Home.css";
 import Auth from "../../utils/auth";
 
 import RecipeFetcher from '../Recipe/RecipeFetcher';
+import SavedRecipesView from '../Recipe/SavedRecipesView';
 
-const Home = () => {
+const Home = ({mode}) => {
 
   const [recipeBooks, setRecipeBooks] = useState([]);
   const {bookId} = useParams();
@@ -67,8 +68,8 @@ const Home = () => {
           <nav className="navbar navbar-dark bg-dark sidebar align-content-between h-100 ">
             <ul className="nav nav-pills flex-column w-100 mx-1">
               {recipeBooks?.map((book) => (
-                <li className="d-flex justify-content-between align-items-center my-1">
-                  <NavLink className="nav-link text-truncate" key={`${book.id}`} to={`/home/${book.id}`}>
+                <li key={`${book.id}`} className="d-flex justify-content-between align-items-center my-1">
+                  <NavLink className="nav-link text-truncate"  to={`/home/${book.id}`}>
                     {book.title}
                   </NavLink>
                   {book.deletable && [
@@ -90,7 +91,10 @@ const Home = () => {
               ))}
             </ul>
             <div className="nav-pills w-100 mt-auto">
-              <Link to="/newRecipeBook" className="text-dark nav-link bg-light text-light ">
+              <Link to="/mySavedRecipes" className="text-dark nav-link bg-light my-1 text-light ">
+                <i className="bi bi-bookmarks-fill"/> Saved recipes
+              </Link>
+              <Link to="/newRecipeBook" className="text-dark nav-link bg-light my-1 text-light ">
                 <i className="bi bi-plus-lg"/> Create a new recipe book
               </Link>
             </div>
@@ -99,7 +103,7 @@ const Home = () => {
         <div className="col-lg-8 mh-100 overflow-auto cool-scrollbar">
           {(bookId)
           ? <RecipeFetcher bookId={bookId} />
-          : <h1>no book</h1>}
+          : (mode==="savedRecipes") ?<SavedRecipesView/> : <h1>no book</h1>}
         </div>
       </div>
     </div>

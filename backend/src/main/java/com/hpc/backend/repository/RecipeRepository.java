@@ -47,6 +47,8 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long>, JpaSpecif
             "WHERE rb.privacy = 0 ORDER BY RAND() LIMIT 1", nativeQuery = true)
     Recipe randomRecipe();
 
+    List<Recipe> findByIdIn(List<Long> ids);
+
 
     @Transactional
     @Modifying

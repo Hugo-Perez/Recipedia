@@ -4,6 +4,7 @@ import './RecipeView.css';
 import {Link, useHistory, useParams} from 'react-router-dom';
 
 import Auth from '../../../utils/auth.js';
+import SaveRecipe from "../SaveRecipe";
 
 const RecipeView = () => {
 
@@ -62,14 +63,17 @@ const RecipeView = () => {
         }
         <div className="col-sm-12 col-md-8 col-xl-8 mx-auto bg-dark text-white recipe-col">
           <div className="recipe-view-header d-flex flex-column mt-3" style={{backgroundImage: `url(${recipe.imageURL})`, backgroundColor: bgColor}}>
-            <h3 className="recipe-image-txt display-5 px-1 mb-0"><i>{recipe?.title}</i></h3>
+            <h3 className="recipe-image-txt display-5 px-1 mb-0">
+              <i>{recipe?.title}</i>
+              {!isOwner && <SaveRecipe recipe={recipe}/>}
+            </h3>
             <h3 className="recipe-image-txt lead px-1">{recipe?.description}</h3>
             <h3 className="recipe-image-txt lead px-1 mb-0 mt-auto"><Link to={`/profile/${recipe?.recipeBook?.author}`} className="link-azul">Author: {recipe?.recipeBook?.author}</Link></h3>
           </div>
           <hr/>
           <h3 className="lead">Ingredients:</h3>
           <p>{
-            recipe?.ingredients?.split("\n").map(function(item, idx) {
+            recipe?.ingredients?.split("\n").map((item, idx) => {
               return (
                 <span key={idx}>
                   {item}
@@ -82,7 +86,7 @@ const RecipeView = () => {
           <h3 className="lead">Steps:</h3>
           <p>
             {
-              recipe?.steps?.split("\n").map(function(item, idx) {
+              recipe?.steps?.split("\n").map((item, idx) => {
                 return (
                   <span key={idx}>
                     {item}
