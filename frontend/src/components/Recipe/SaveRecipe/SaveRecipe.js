@@ -16,7 +16,7 @@ const SaveRecipe = ({recipe}) => {
       }
     }).then(response => response.json())
       .then(savedRecipes => {
-        if (savedRecipes.filter(recipe => recipe?.id === recipe.id).length > 0) {
+        if (savedRecipes.filter(savedRecipe => savedRecipe?.id === recipe.id).length > 0) {
           setSaved(true);
         }
       })
