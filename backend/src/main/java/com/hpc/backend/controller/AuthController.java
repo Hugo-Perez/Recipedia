@@ -120,10 +120,6 @@ public class AuthController {
         defaultRecipeBook.setDeletable(false);
         recipeBookRepository.saveAndFlush(defaultRecipeBook);
 
-        RecipeBook savedRecipes = new RecipeBook("Saved", user.getUsername(), "Your saved recipes are here", false, user);
-        savedRecipes.setDeletable(false);
-        recipeBookRepository.saveAndFlush(savedRecipes);
-
         return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 

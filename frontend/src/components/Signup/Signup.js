@@ -136,11 +136,6 @@ const Signup = () => {
           <p className="form-error">{errors.password?.message}</p>
         </div>
 
-        <div className="checkbox mb-3">
-          <label>
-            <input type="checkbox" value="remember-me" /> Remember me
-          </label>
-        </div>
         <button className="w-100 btn btn-lg btn-primary" type="submit">
           {loading ? <span className="spinner-border"></span> : "Register"}
         </button>

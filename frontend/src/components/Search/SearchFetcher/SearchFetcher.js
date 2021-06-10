@@ -13,7 +13,7 @@ const SearchFetcher = ({filters}) => {
 
   useEffect(() => {
     const URL = `${API_URL}recipe/searchRecipes/?searchText=${filters?.searchText}&page=${Number(filters?.page)-1}`
-              + `&pageSize=24&sort=${filters.sort},${filters.order}&ingredients=${filters?.ingredients}`;
+              + `&pageSize=12&sort=${filters.sort},${filters.order}&ingredients=${filters?.ingredients}`;
 
     fetch(URL, {
       method: "GET",
