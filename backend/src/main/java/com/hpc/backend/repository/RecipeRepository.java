@@ -24,7 +24,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long>, JpaSpecif
             "INNER JOIN recipe_book rb ON re.recipe_book_id = rb.id " +
             "WHERE (re.title LIKE %?1% OR re.description LIKE %?1%) " +
             "AND (rb.privacy = 0)",
-            countQuery = "SELECT count(re.*) FROM recipe re " +
+            countQuery = "SELECT count(*) FROM recipe re " +
                     "INNER JOIN recipe_book rb ON re.recipe_book_id = rb.id " +
                     "WHERE (re.title LIKE %?1% OR re.description LIKE %?1%) " +
                     "AND (rb.privacy = 0)",
@@ -35,7 +35,7 @@ public interface RecipeRepository extends JpaRepository<Recipe, Long>, JpaSpecif
                 "INNER JOIN recipe_book rb ON re.recipe_book_id = rb.id " +
                 "WHERE (re.title LIKE %?1% OR re.description LIKE %?1%) " +
                 "AND (rb.privacy = 0) AND (re.ingredients REGEXP ?2)",
-            countQuery = "SELECT count(re.*) FROM recipe re " +
+            countQuery = "SELECT count(*) FROM recipe re " +
                     "INNER JOIN recipe_book rb ON re.recipe_book_id = rb.id " +
                     "WHERE (re.title LIKE %?1% OR re.description LIKE %?1%) " +
                     "AND (rb.privacy = 0) AND (re.ingredients REGEXP ?2)",
